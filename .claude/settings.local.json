@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node_modules/.bin/tsc --version)",
+      "Bash(node -e \"const p=require\\(''./node_modules/typescript/package.json''\\); console.log\\(''typescript:'', p.version\\)\")",
+      "Bash(npm install --legacy-peer-deps)",
+      "Bash(npm run build)",
+      "Bash(echo \"BUILD_EXIT=$?\")",
+      "Bash(npx ts-node scripts/build/compile/index.ts)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(npx ts-node -e \"console.log\\(''ts-node works''\\); console.error\\(''stderr works''\\);\")",
+      "Bash(npx ts-node --skip-project scripts/build/compile/index.ts)",
+      "Bash(npx ts-node -e \"import { execSync } from ''child_process''; console.log\\(''start''\\); execSync\\(''echo hello world'', { stdio: ''inherit'' }\\); console.log\\(''done''\\);\")",
+      "Bash(TS_NODE_LOG_ERROR=true npx ts-node scripts/build/compile/index.ts)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(/tmp/test-ts.ts:*)",
+      "Bash(npx ts-node /tmp/test-ts.ts)",
+      "Bash(npx ts-node --version)",
+      "Bash(node -e \"console.log\\(''node test''\\)\")",
+      "Bash(node -e \"require\\(''child_process''\\).execSync\\(''npx ts-node /tmp/test-ts.ts'', {stdio: ''pipe'', encoding: ''utf8''}\\)\")",
+      "Bash(node -e \"try{ var r=require\\(''child_process''\\).execSync\\(''npx ts-node /tmp/test-ts.ts'', {encoding:''utf8''}\\); console.log\\(''GOT:'', JSON.stringify\\(r\\)\\); }catch\\(e\\){console.log\\(''ERR'',e.stdout,e.stderr\\)}\")",
+      "Bash(npm install --save-dev tsx --legacy-peer-deps)",
+      "Bash(npx tsc --project tsconfig.cjs.json --noEmit)",
+      "Bash(xargs ls -la)",
+      "Bash(cat .github/workflows/*.yml)"
+    ]
+  }
+}

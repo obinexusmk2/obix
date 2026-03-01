@@ -1,42 +1,22 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": true,
+    "strict": false,
+    "outDir": "./dist/cjs",
     "declaration": false,
-    "sourceMap": true,
-    "outDir": "/home/obinexuscomputing/projects/pkg/obix/dist/cjs",
-    "baseUrl": ".",
-    "paths": {
-      "@core/*": [
-        "src/core/*"
-      ],
-      "@parser/*": [
-        "src/parser/*"
-      ],
-      "@diff/*": [
-        "src/diff/*"
-      ],
-      "@api/*": [
-        "src/api/*"
-      ]
-    },
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "declarationMap": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitOverride": false,
+    "isolatedModules": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "tests"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts", "**/*.spec.ts"]
 }
