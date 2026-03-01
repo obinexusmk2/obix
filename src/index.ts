@@ -1,14 +1,45 @@
 /**
- * OBIX - Optimized Browser Interface eXperience
- * Main entry point
- * 
- * @copyright OBINexus Computing 2025
- * @created 2025-03-04
+ * OBIX Bioware entrypoint
  */
 
-function main() {
-    console.log("Initializing OBIX application...");
-    // Add initialization logic here
-}
+import {
+  captureBiologicalInput,
+  type BiologicalController,
+  type BioelectricState,
+  type ChemicalState,
+  type Vector3
+} from './controller';
+import {
+  F_MA,
+  translateToControlSignal,
+  type ControlSignal,
+  type Force
+} from './control';
+import {
+  executeControlSignal,
+  type ArcReactor,
+  type Exoskeleton,
+  type Joint
+} from './controllee';
 
-main();
+export {
+  ArcReactor,
+  BioelectricState,
+  BiologicalController,
+  captureBiologicalInput,
+  ChemicalState,
+  ControlSignal,
+  executeControlSignal,
+  Exoskeleton,
+  F_MA,
+  Force,
+  Joint,
+  translateToControlSignal,
+  Vector3
+};
+
+export const runBiowareCycle = (exoskeleton: Exoskeleton): number => {
+  const input = captureBiologicalInput();
+  const signal = translateToControlSignal(input, exoskeleton.mass);
+  return executeControlSignal(signal, exoskeleton);
+};
