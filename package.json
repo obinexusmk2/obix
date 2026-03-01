@@ -26,7 +26,7 @@
     "prepare": "husky install",
     "dev": "./scripts/setup/dev-workflow.sh",
     "env:setup": "source ./scripts/setup/env-setup.sh",
-    "build": "tsx scripts/build/compile/index.ts",
+    "build": "node scripts/build/bioware/v4.mjs",
     "build:ts": "tsx scripts/build/compile/index.ts",
     "build:types": "tsc --project tsconfig.types.json",
     "build:dev": "tsx scripts/build/compile/index.ts --dev",
@@ -55,7 +55,12 @@
     "release:prepare": "node scripts/release/prepare/index.js",
     "release:publish": "node scripts/release/publish/index.js",
     "cli": "tsx src/cli/index.ts",
-    "test:ci": "jest --ci --coverage"
+    "test:ci": "jest --ci --coverage",
+    "build:bioware": "node scripts/build/bioware/pipeline.mjs",
+    "build:v1": "node scripts/build/bioware/v1.mjs",
+    "build:v2": "node scripts/build/bioware/v2.mjs",
+    "build:v3": "node scripts/build/bioware/v3.mjs",
+    "build:v4": "node scripts/build/bioware/v4.mjs"
   },
   "keywords": [
     "automaton",
@@ -114,7 +119,8 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typedoc": "^0.26.11",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "esbuild": "^0.25.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.23.5"
