@@ -1,0 +1,59 @@
+/**
+ * index.ts - IOC Providers
+ * 
+ * Export file for all IOC service providers in the OBIX framework.
+ * This file makes providers available throughout the application.
+ * 
+ * Copyright © 2025 OBINexus Computing
+ */
+
+import { IServiceProvider } from '../IServiceProvider';
+import { AutomatonProvider } from './automaton/AutomatonProvider';
+import { ValidationProvider } from './validation/ValidationProvider';
+import { DOMProvider } from './dom/DOMProvider';
+import { ParserProvider } from './parser/ParserProvider';
+import { PolicyProvider } from './policy/PolicyProvider';
+import { LoggingProvider } from './logging/LoggingProvider';
+import { ConfigProvider } from './config/ConfigProvider';
+
+// Define an interface that can be exposed publicly
+export interface IProvider extends IServiceProvider {
+  readonly name: string;
+  readonly dependencies: string[];
+  register(): void;
+}
+
+/**
+ * Register a service provider with the container
+ * 
+ * @param provider A service provider implementation
+ */
+export function registerProvider(provider: IProvider): void {
+  provider.register();
+}
+
+/**
+ * Get all core providers for the OBIX framework
+ * 
+ * @returns Array of all core service providers
+ */
+export function getCoreProviders(): IProvider[] {
+  return [
+    new AutomatonProvider(),
+    new ValidationProvider(),
+    new DOMProvider(),
+    new ParserProvider(),
+    new PolicyProvider(),
+    new LoggingProvider(),
+    new ConfigProvider()
+  ];
+}
+
+// Export individual providers
+export { AutomatonProvider } from './automaton/AutomatonProvider';
+export { ValidationProvider } from './validation/ValidationProvider';
+export { DOMProvider } from './dom/DOMProvider';
+export { ParserProvider } from './parser/ParserProvider';
+export { PolicyProvider } from './policy/PolicyProvider';
+export { LoggingProvider } from './logging/LoggingProvider';
+export { ConfigProvider } from './config/ConfigProvider';

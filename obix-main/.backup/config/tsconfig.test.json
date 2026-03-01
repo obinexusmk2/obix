@@ -1,0 +1,49 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["jest", "node"],
+    "module": "CommonJS",
+    "target": "ES2018",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "noEmit": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@core/*": ["src/core/*"],
+      "@core/ast/*": ["src/core/ast/*"],
+      "@core/automaton/*": ["src/core/automaton/*"],
+      "@core/common/*": ["src/core/common/*"],
+      "@core/diff/*": ["src/core/diff/*"],
+      "@core/dop/*": ["src/core/dop/*"],
+      "@core/parser/*": ["src/core/parser/*"],
+      "@core/validation/*": ["src/core/validation/*"],
+      "@api/*": ["src/api/*"],
+      "@api/functional/*": ["src/api/functional/*"],
+      "@api/hooks/*": ["src/api/hooks/*"],
+      "@api/oop/*": ["src/api/oop/*"],
+      "@api/shared/*": ["src/api/shared/*"],
+      "@api/utils/*": ["src/api/utils/*"],
+      "@parser/*": ["src/core/parser/*"],
+      "@parser/html/*": ["src/core/parser/html/*"],
+      "@parser/css/*": ["src/core/parser/css/*"],
+      "@diff/*": ["src/core/diff/*"],
+      "@factory/*": ["src/core/factory/*"],
+      "@tools/*": ["src/tools/*"],
+      "@config/*": ["src/config/*"],
+      "@test/*": ["tests/*"],
+      "@test/fixtures/*": ["tests/fixtures/*"],
+      "@test/unit/*": ["tests/unit/*"],
+      "@test/integration/*": ["tests/integration/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

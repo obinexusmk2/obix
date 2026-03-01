@@ -1,0 +1,85 @@
+import { BehaviorModel } from "@core/dop/common/BehaviourModel";
+import { ImplementationComparisonResult } from "@core/dop/common/ImplementationComparisonResult";
+import { ValidationResult } from "@core/dop/common/ValidationResult";
+import { ExecutionTrace } from "@core/validation/errors/ExecutionTrace";
+import { TestDataModel } from "./DataModel.test";
+
+export class TestBehaviorModel implements BehaviorModel<TestDataModel, TestBehaviorModel> {
+  id: string = "test-id";
+  description: string = "Test behavior model";
+  processingDelay: number = 0;
+  value: number = 0;
+
+  validate(dataModel: TestDataModel): ValidationResult<TestDataModel> {
+    return {
+      isValid: true,
+      data: dataModel,
+      errors: [],
+      warnings: [],
+      traces: [],
+      equivalent: true,
+      metadata: {},
+      severity: "info",
+      timestamp: Date.now(),
+      compareWith: (other: ValidationResult<any>): ImplementationComparisonResult => {
+        return {
+          equivalent: true,
+          mismatches: [],
+          summary: { message: "No differences found" },
+          metrics: {
+            totalFunctionsCalled: 0,
+            totalStateMutations: 0,
+            totalPropertyAccesses: 0,
+            totalDifferences: 0,
+            comparisonTime: 0,
+            tracesCompared: 0,
+            tracesDiverged: 0
+          },
+          traceComparisons: [],
+          generateReport: () => "No differences found",
+          getMismatches: () => []
+        };
+      },
+      addTrace: (trace: ExecutionTrace): ValidationResult<TestDataModel> => {
+        this.traces.push(trace);
+        return this;
+      },
+      getSummary: (): object => {
+        return { message: "Valid" };
+      }
+    };
+  }
+
+  process(dataModel: TestDataModel): TestDataModel {
+    return dataModel.withData('processed', true);
+  }
+
+  getBehaviorId(): string {
+    return this.id;
+  }
+
+  getDescription(): string {
+    return this.description;
+  }
+
+  compareWith(other: ValidationResult<any>): ImplementationComparisonResult {
+    return {
+      equivalent: true,
+      mismatches: [],
+      summary: { message: "No differences found" },
+      metrics: {
+        totalFunctionsCalled: 0,
+        totalStateMutations: 0,
+        totalPropertyAccesses: 0,
+        totalDifferences: 0,
+        comparisonTime: 0,
+        tracesCompared: 0,
+        tracesDiverged: 0
+      },
+      traceComparisons: [],
+      generateReport: () => "No differences found",
+      getMismatches: () => []
+    };
+  }
+}
+

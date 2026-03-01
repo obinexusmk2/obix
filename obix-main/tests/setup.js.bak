@@ -1,0 +1,23 @@
+// Jest setup file for OBIX
+const { setupCustomMatchers, configureJestForOBIX } = require('./utils/testHelpers');
+
+// Configure Jest specifically for OBIX
+configureJestForOBIX();
+
+// Set up custom matchers
+setupCustomMatchers();
+
+// Mock global objects if needed
+global.XMLHttpRequest = jest.fn(() => ({
+  open: jest.fn(),
+  send: jest.fn(),
+  setRequestHeader: jest.fn(),
+  readyState: 4,
+  status: 200,
+  responseText: '{}'
+}));
+
+// Reset mocks between tests
+beforeEach(() => {
+  jest.clearAllMocks();
+});

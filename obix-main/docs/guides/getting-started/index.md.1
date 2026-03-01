@@ -1,0 +1,70 @@
+# Getting Started with OBIX
+
+Welcome to OBIX, the Optimized Browser Interface eXperience library. This guide will help you get started with using OBIX to build high-performance web applications.
+
+## Installation
+
+```bash
+npm install @obinexuscomputing/obix
+```
+
+## Basic Usage
+
+OBIX provides both functional and object-oriented programming interfaces, allowing you to choose the style that best fits your project.
+
+### Functional Approach
+
+```typescript
+import { component } from '@obinexuscomputing/obix';
+
+const Counter = component({
+  initialState: { count: 0 },
+  transitions: {
+    increment: (state) => ({ count: state.count + 1 }),
+    decrement: (state) => ({ count: state.count - 1 })
+  },
+  render: (state, trigger) => (
+    <div>
+      <button onClick={() => trigger('decrement')}>-</button>
+      <span>{state.count}</span>
+      <button onClick={() => trigger('increment')}>+</button>
+    </div>
+  )
+});
+```
+
+### Object-Oriented Approach
+
+```typescript
+import { Component } from '@obinexuscomputing/obix';
+
+class Counter extends Component {
+  initialState = { count: 0 };
+  
+  increment(state) {
+    return { count: state.count + 1 };
+  }
+  
+  decrement(state) {
+    return { count: state.count - 1 };
+  }
+  
+  render(state) {
+    return (
+      <div>
+        <button onClick={() => this.trigger('decrement')}>-</button>
+        <span>{state.count}</span>
+        <button onClick={() => this.trigger('increment')}>+</button>
+      </div>
+    );
+  }
+}
+```
+
+## Next Steps
+
+For more detailed information, check out:
+
+- [API Documentation](/docs/api/)
+- [Examples](/examples/)
+- [Performance Optimization Guide](/docs/guides/best-practices/performance.md)

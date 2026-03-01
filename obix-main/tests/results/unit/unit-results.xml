@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="5" errors="0" time="0.535">
+  <testsuite name="CSSTokenizer" errors="0" failures="5" skipped="0" timestamp="2025-04-27T14:12:06" time="0.037" tests="5">
+    <testcase classname="CSSTokenizer tokenizes a simple CSS rule" name="CSSTokenizer tokenizes a simple CSS rule" time="0.002">
+      <failure>ReferenceError: CSSTokenizer is not defined
+    at Object.&lt;anonymous&gt; (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/tests/unit/core/parser/css/parser/CSSTokenizer.test.ts:6:25)
+    at Promise.then.completed (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CSSTokenizer tokenizes a CSS rule with multiple declarations" name="CSSTokenizer tokenizes a CSS rule with multiple declarations" time="0">
+      <failure>ReferenceError: CSSTokenizer is not defined
+    at Object.&lt;anonymous&gt; (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/tests/unit/core/parser/css/parser/CSSTokenizer.test.ts:21:25)
+    at Promise.then.completed (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CSSTokenizer tokenizes CSS with comments" name="CSSTokenizer tokenizes CSS with comments" time="0.001">
+      <failure>ReferenceError: CSSTokenizer is not defined
+    at Object.&lt;anonymous&gt; (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/tests/unit/core/parser/css/parser/CSSTokenizer.test.ts:37:25)
+    at Promise.then.completed (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CSSTokenizer tokenizes CSS with at-rules" name="CSSTokenizer tokenizes CSS with at-rules" time="0">
+      <failure>ReferenceError: CSSTokenizer is not defined
+    at Object.&lt;anonymous&gt; (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/tests/unit/core/parser/css/parser/CSSTokenizer.test.ts:50:25)
+    at Promise.then.completed (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="CSSTokenizer handles malformed CSS gracefully" name="CSSTokenizer handles malformed CSS gracefully" time="0">
+      <failure>ReferenceError: CSSTokenizer is not defined
+    at Object.&lt;anonymous&gt; (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/tests/unit/core/parser/css/parser/CSSTokenizer.test.ts:63:25)
+    at Promise.then.completed (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:121:9)
+    at run (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/runTest.js:444:34)
+    at Object.worker (/home/nnamdi/Projects/obinexus/pkg/dev/urgent/obix/node_modules/jest-runner/build/testWorker.js:106:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Policy Integration with DOP Adapter" errors="0" failures="0" skipped="0" timestamp="2025-04-27T14:12:06" time="0.018" tests="3">
+    <testcase classname="Policy Integration with DOP Adapter should enforce policies via the DOP adapter" name="Policy Integration with DOP Adapter should enforce policies via the DOP adapter" time="0.001">
+    </testcase>
+    <testcase classname="Policy Integration with DOP Adapter should validate policies during state transitions" name="Policy Integration with DOP Adapter should validate policies during state transitions" time="0">
+    </testcase>
+    <testcase classname="Policy Integration with DOP Adapter should maintain adapter validation with policy checks" name="Policy Integration with DOP Adapter should maintain adapter validation with policy checks" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>

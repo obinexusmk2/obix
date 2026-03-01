@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "declaration": false,
+    "sourceMap": true,
+    "outDir": "/home/obinexuscomputing/projects/pkg/obix/dist/umd",
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": [
+        "src/core/*"
+      ],
+      "@parser/*": [
+        "src/parser/*"
+      ],
+      "@diff/*": [
+        "src/diff/*"
+      ],
+      "@api/*": [
+        "src/api/*"
+      ]
+    },
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "compilerOptions": {
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    
+    /* Modules */
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@core/*": ["src/core/*"],
+      "@core/ast/*": ["src/core/ast/*"],
+      "@core/automaton/*": ["src/core/automaton/*"],
+      "@core/common/*": ["src/core/common/*"],
+      "@core/diff/*": ["src/core/diff/*"],
+      "@core/dop/*": ["src/core/dop/*"],
+      "@core/parser/*": ["src/core/parser/*"],
+      "@core/validation/*": ["src/core/validation/*"],
+      "@api/*": ["src/api/*"],
+      "@api/functional/*": ["src/api/functional/*"],
+      "@api/hooks/*": ["src/api/hooks/*"],
+      "@api/oop/*": ["src/api/oop/*"],
+      "@api/shared/*": ["src/api/shared/*"],
+      "@api/utils/*": ["src/api/utils/*"],
+      "@parser/*": ["src/core/parser/*"],
+      "@parser/html/*": ["src/core/parser/html/*"],
+      "@parser/css/*": ["src/core/parser/css/*"],
+      "@diff/*": ["src/core/diff/*"],
+      "@factory/*": ["src/core/factory/*"],
+      "@tools/*": ["src/tools/*"],
+      "@config/*": ["src/core/config/*"]
+    },
+    
+    /* Emit */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": false,
+    "importHelpers": true,
+    
+    /* JavaScript Support */
+    "allowJs": false,
+    
+    /* Interop Constraints */
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["jest", "node"],
+    
+    /* Language and Environment */
+    "target": "ES2018",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    
+    /* Completeness */
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests/**/*.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}
