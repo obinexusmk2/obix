@@ -24,9 +24,9 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "dev": "./scripts/setup/dev-workflow.sh",
+    "dev": "esbuild src/index.ts --bundle --format=esm --outfile=dist/esm/index.js --watch",
     "env:setup": "source ./scripts/setup/env-setup.sh",
-    "build": "node scripts/build/bioware/v4.mjs",
+    "build": "node scripts/build/esbuild.config.js",
     "build:ts": "tsx scripts/build/compile/index.ts",
     "build:types": "tsc --project tsconfig.types.json",
     "build:dev": "tsx scripts/build/compile/index.ts --dev",
@@ -56,11 +56,9 @@
     "release:publish": "node scripts/release/publish/index.js",
     "cli": "tsx src/cli/index.ts",
     "test:ci": "jest --ci --coverage",
-    "build:bioware": "node scripts/build/bioware/pipeline.mjs",
-    "build:v1": "node scripts/build/bioware/v1.mjs",
-    "build:v2": "node scripts/build/bioware/v2.mjs",
-    "build:v3": "node scripts/build/bioware/v3.mjs",
-    "build:v4": "node scripts/build/bioware/v4.mjs"
+    "build:esbuild": "node scripts/build/esbuild.config.js",
+    "build:rollup": "rollup -c rollup.config.js",
+    "build:all": "npm run build:esbuild && npm run build:types && npm run build:rollup"
   },
   "keywords": [
     "automaton",
@@ -120,7 +118,9 @@
     "tsx": "^4.21.0",
     "typedoc": "^0.26.11",
     "typescript": "^5.8.2",
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.0",
+    "rollup": "^4.34.8",
+    "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.23.5"
