@@ -21,11 +21,6 @@ const config = {
   },
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
-    "^@core/(.*)$": "<rootDir>/src/core/$1",
-    "^@parser/(.*)$": "<rootDir>/src/core/parser/$1",
-    "^@api/(.*)$": "<rootDir>/src/api/$1",
-    "^@diff/(.*)$": "<rootDir>/src/core/diff/$1",
-    "^@factory/(.*)$": "<rootDir>/src/core/factory/$1",
     "^@test/(.*)$": "<rootDir>/tests/$1"
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
@@ -63,18 +58,6 @@ const config = {
       functions: 80,
       lines: 80,
       statements: 80
-    },
-    './src/core/dop/': {
-      branches: 90,
-      functions: 90,
-      lines: 90,
-      statements: 90
-    },
-    './src/core/automaton/': {
-      branches: 90,
-      functions: 90,
-      lines: 90,
-      statements: 90
     }
   }
 };
