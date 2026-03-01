@@ -49,7 +49,8 @@
       "Bash(node node_modules/typescript/bin/tsc --project tsconfig.bioware.json --noEmit)",
       "Bash(npm install esbuild@0.25.0 --force)",
       "Bash(npm run build:prod)",
-      "Bash(npm run build:types)"
+      "Bash(npm run build:types)",
+      "Bash(npx typedoc --version)"
     ]
   }
 }
