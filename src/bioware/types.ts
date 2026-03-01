@@ -1,54 +1,60 @@
-export type Tripolar = 'ALIVE' | 'DEAD' | 'SUPERPOSITION';
-
-export interface Vector3 {
+export type Vector3 = {
   x: number;
   y: number;
   z: number;
-}
+};
 
-export interface ChemicalState {
+export type TripolarState = 'ALIVE' | 'DEAD' | 'SUPERPOSITION';
+
+export type ChemicalState = {
   pH: number;
-  glucose: number;
-  oxygen: number;
-}
+  glucoseMmolL: number;
+  oxygenPercent: number;
+};
 
-export interface BioelectricState {
-  potential: number;
-  current: number;
-}
+export type BioelectricState = {
+  potentialMv: number;
+  currentMa: number;
+};
 
-export interface BiologicalController {
-  force: Vector3;
-  temperature: number;
+export type BiologicalControllerInput = {
+  forceVector: Vector3;
+  accelerationVector: Vector3;
+  userMassKg: number;
+  temperatureKelvin: number;
   chemical: ChemicalState;
   electrical: BioelectricState;
-}
+};
 
-export interface ForceSignal {
+export type ForceCommand = {
   newtons: number;
   vector: Vector3;
-  timestamp: number;
-}
+  source: 'F=ma';
+};
 
-export interface ControlSignal {
-  controller: BiologicalController;
-  command: ForceSignal;
-  target: string;
-}
+export type ControlSignal = {
+  controller: BiologicalControllerInput;
+  control: ForceCommand;
+  controlleeId: string;
+  state: TripolarState;
+};
 
-export interface Joint {
+export type JointState = {
   id: string;
-  applyTorque: (torque: number) => void;
-}
+  torqueApplied: number;
+};
 
-export interface ArcReactor {
-  output: number;
-  temperature: number;
-  stability: number;
-}
+export type Controllee = {
+  id: string;
+  massKg: number;
+  joints: JointState[];
+  stabilityThresholdPercent: number;
+};
 
-export interface Exoskeleton {
-  mass: number;
-  joints: Joint[];
-  powerSource: ArcReactor;
-}
+export type ControlleeExecutionResult = {
+  controlleeId: string;
+  actioned: boolean;
+  tripolar: TripolarState;
+  reason: string;
+  updatedJoints: JointState[];
+};

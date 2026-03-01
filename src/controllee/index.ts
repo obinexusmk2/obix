@@ -1,25 +1,55 @@
-import { ControlSignal, Exoskeleton } from '../bioware/types';
+import { applyTenPercentStabilityRule } from '../control';
+import type { ControlSignal, Controllee, ControlleeExecutionResult, JointState } from '../bioware/types';
 
-export const STABILITY_THRESHOLD = 0.1;
+const applyTorqueToJoints = (joints: JointState[], torque: number): JointState[] => {
+  return joints.map((joint) => ({
+    ...joint,
+    torqueApplied: joint.torqueApplied + torque,
+  }));
+};
+
+export const createControllee = (
+  id: string,
+  massKg: number,
+  jointCount: number,
+  stabilityThresholdPercent = 10,
+): Controllee => {
+  return {
+    id,
+    massKg,
+    stabilityThresholdPercent,
+    joints: Array.from({ length: jointCount }, (_, index) => ({
+      id: `${id}-joint-${index + 1}`,
+      torqueApplied: 0,
+    })),
+  };
+};
 
 export const executeControlSignal = (
   signal: ControlSignal,
-  controllee: Exoskeleton
-): 'ALIVE' | 'DEAD' | 'SUPERPOSITION' => {
-  const minForce = controllee.mass * 9.8 * STABILITY_THRESHOLD;
+  controllee: Controllee,
+): ControlleeExecutionResult => {
+  const forceThreshold = controllee.massKg * 9.81;
+  const stable = applyTenPercentStabilityRule(signal.control.newtons, forceThreshold);
 
-  if (signal.command.newtons < minForce) {
-    return 'DEAD';
+  if (!stable) {
+    return {
+      controlleeId: controllee.id,
+      actioned: false,
+      tripolar: 'DEAD',
+      reason: 'Below 10% stability threshold',
+      updatedJoints: controllee.joints,
+    };
   }
 
-  if (signal.command.newtons > controllee.mass * 9.8) {
-    return 'SUPERPOSITION';
-  }
+  const torque = signal.control.newtons * 0.5;
+  const updatedJoints = applyTorqueToJoints(controllee.joints, torque);
 
-  const torque = signal.command.newtons * 0.5;
-  controllee.joints.forEach((joint) => {
-    joint.applyTorque(torque);
-  });
-
-  return 'ALIVE';
+  return {
+    controlleeId: controllee.id,
+    actioned: true,
+    tripolar: signal.state === 'DEAD' ? 'SUPERPOSITION' : signal.state,
+    reason: 'Control signal executed',
+    updatedJoints,
+  };
 };
