@@ -2,6 +2,18 @@
 
 An implementation of Nnamdi Okpala's automaton state minimization technology that bridges functional and OOP paradigms with perfect 1:1 correspondence.
 
+
+## Bioware Migration Track
+
+The project now includes a staged migration path from OBIX DOP patterns to a Bioware-oriented build and layering model:
+
+1. **v1**: Controller / Control / Controllee source layers in `src/`
+2. **v2**: esbuild compiler pipeline (`npm run build:v2`)
+3. **v3**: Rollup multi-format bundles + Bioware declarations (`npm run build:v3`)
+4. **v4**: Finalized migration documentation and command flow (`npm run build:v4`)
+
+See `docs/bioware-migration.md` for details.
+
 ## Overview
 
 This framework provides a unified approach to state management and component definition that allows developers to seamlessly switch between functional and object-oriented programming paradigms. At its core is the Data-Oriented Programming (DOP) pattern, which separates data (state) from behavior (transitions).
