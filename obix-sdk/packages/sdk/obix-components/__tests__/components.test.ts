@@ -72,6 +72,24 @@ describe('Button Component', () => {
     expect(button.state?.isToggle).toBe(true);
   });
 
+  it('alternates pressed state across sequential toggle calls', () => {
+    const button = createButton({
+      label: 'Toggle',
+      isToggle: true,
+      ariaPressed: false,
+    });
+
+    const firstToggle = button.actions?.toggle?.();
+    const secondToggle = button.actions?.toggle?.();
+    const thirdToggle = button.actions?.toggle?.();
+
+    expect(firstToggle?.pressed).toBe(true);
+    expect(secondToggle?.pressed).toBe(false);
+    expect(thirdToggle?.pressed).toBe(true);
+    expect(button.state?.pressed).toBe(true);
+    expect(button.aria?.['aria-pressed']).toBe(true);
+  });
+
   it('provides click action', () => {
     const button = createButton({ label: 'Click' });
     const result = button.actions?.click?.();

@@ -71,9 +71,15 @@ export function createButton(config: ButtonConfig): ComponentLogicWithAccessibil
      */
     toggle() {
       if (state.isToggle && !state.disabled && !state.loading) {
+        const nextPressed = !(state as Record<string, boolean>).pressed;
+        (state as Record<string, boolean>).pressed = nextPressed;
+        if (aria['aria-pressed'] !== undefined) {
+          aria['aria-pressed'] = (state as Record<string, boolean>).pressed;
+        }
+
         return {
           type: 'TOGGLED',
-          pressed: !(state as Record<string, boolean>).pressed,
+          pressed: (state as Record<string, boolean>).pressed,
         };
       }
     },
