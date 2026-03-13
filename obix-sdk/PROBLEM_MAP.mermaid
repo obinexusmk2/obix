@@ -1,0 +1,148 @@
+---
+title: "OBIX SDK — Web UX Problem → Package Resolution Map"
+---
+graph LR
+    subgraph PERF["Performance & Loading"]
+        P1["CLS - Layout Shift"]
+        P2["FCP Deception - Dead Skeletons"]
+        P3["Hydration Mismatch"]
+        P4["Infinite Scroll Anchor Loss"]
+    end
+
+    subgraph RESP["Responsive & Viewport"]
+        R1["100vh Inconsistency"]
+        R2["Hover-State Trapping on Touch"]
+        R3["Breakpoint Binary Thinking"]
+        R4["Safe Area Ignorance"]
+    end
+
+    subgraph INP["Input & Interaction"]
+        I1["Virtual Keyboard Pushing"]
+        I2["Touch Target Ambiguity"]
+        I3["Input Zoom Injection"]
+        I4["Drag vs Scroll Conflicts"]
+        I5["Right-Click Context Override"]
+    end
+
+    subgraph NAV["Navigation & Wayfinding"]
+        N1["SPA Scroll Amnesia"]
+        N2["Deep Link Decay"]
+        N3["Breadcrumb Mirage"]
+        N4["Focus Ring Suppression"]
+    end
+
+    subgraph ACC["Accessibility"]
+        A1["ARIA Label Overload"]
+        A2["Reduced Motion Disrespect"]
+        A3["Color Contrast Edge Cases"]
+        A4["Focus Trap Failures"]
+    end
+
+    subgraph FRM["Forms & Data Entry"]
+        F1["Autocomplete Neglect"]
+        F2["Date Picker Dissonance"]
+        F3["Form Validation Timing"]
+        F4["File Upload Opaqueness"]
+    end
+
+    subgraph TRUST["Trust & Security"]
+        T1["Mixed Content Anxiety"]
+        T2["Third-Script Layout Pollution"]
+        T3["Cookie Consent Dark Patterns"]
+    end
+
+    subgraph STATEFB["State & Feedback"]
+        S1["Stale Tab Syndrome"]
+        S2["Network Status Invisibility"]
+    end
+
+    subgraph PACKAGES["OBIX SDK Packages"]
+        CORE["obix-core"]
+        COMP["obix-components"]
+        ADAPTER["obix-adapter"]
+        TEL["obix-telemetry"]
+        A11Y["obix-accessibility"]
+        MOTION["obix-motion"]
+        FORMS["obix-forms"]
+        ROUTER["obix-router"]
+        STATE["obix-state"]
+        CLI["obix-cli"]
+    end
+
+    subgraph DRVPKG["OBIX Drivers"]
+        DOM["dom-mutation"]
+        INPUT["input-event"]
+        MQ["media-query"]
+        STORE["storage-persistence"]
+        NET["network-stream"]
+        FONT["font-layout"]
+        GPU["gpu-acceleration"]
+        ATREE["accessibility-tree"]
+        ANIM["animation-frame"]
+        COMPOSIT["compositor"]
+    end
+
+    %% Performance mappings
+    P1 --> COMP
+    P1 --> FONT
+    P2 --> COMP
+    P2 --> CORE
+    P3 --> STATE
+    P3 --> ADAPTER
+    P4 --> ROUTER
+
+    %% Responsive mappings
+    R1 --> MQ
+    R2 --> INPUT
+    R3 --> MQ
+    R4 --> MQ
+
+    %% Input mappings
+    I1 --> MQ
+    I1 --> INPUT
+    I2 --> COMP
+    I3 --> INPUT
+    I4 --> INPUT
+    I5 --> INPUT
+
+    %% Navigation mappings
+    N1 --> ROUTER
+    N2 --> ROUTER
+    N3 --> ROUTER
+    N4 --> A11Y
+
+    %% Accessibility mappings
+    A1 --> A11Y
+    A1 --> ATREE
+    A2 --> MOTION
+    A2 --> ANIM
+    A3 --> A11Y
+    A4 --> A11Y
+    A4 --> COMP
+
+    %% Forms mappings
+    F1 --> FORMS
+    F2 --> FORMS
+    F3 --> FORMS
+    F4 --> FORMS
+
+    %% Trust mappings
+    T1 --> TEL
+    T2 --> COMPOSIT
+    T2 --> DOM
+    T3 --> COMP
+
+    %% State & Feedback mappings
+    S1 --> STATE
+    S1 --> NET
+    S2 --> NET
+    S2 --> TEL
+
+    %% Styling
+    classDef problem fill:#ef4444,stroke:#dc2626,color:#fff
+    classDef pkg fill:#3b82f6,stroke:#2563eb,color:#fff
+    classDef drv fill:#059669,stroke:#047857,color:#fff
+
+    class P1,P2,P3,P4,R1,R2,R3,R4,I1,I2,I3,I4,I5,N1,N2,N3,N4,A1,A2,A3,A4,F1,F2,F3,F4,T1,T2,T3,S1,S2 problem
+    class CORE,COMP,ADAPTER,TEL,A11Y,MOTION,FORMS,ROUTER,STATE,CLI pkg
+    class DOM,INPUT,MQ,STORE,NET,FONT,GPU,ATREE,ANIM,COMPOSIT drv

@@ -1,0 +1,101 @@
+---
+title: "OBIX Heart/Soul UI/UX SDK — Three-Layer Architecture & Problem Mapping"
+---
+graph TB
+    subgraph USER["Developer Experience"]
+        INSTALL["npm i @obinexusltd/obix-*"]
+    end
+
+    subgraph SDK["LAYER 3: SDK Packages (Developer-Facing)"]
+        direction TB
+        CORE["@obinexusltd/obix-core<br/>Runtime Engine • Component Lifecycle<br/>• State Halting • Policy Framework"]
+        COMP["@obinexusltd/obix-components<br/>UI Primitives • Button/Input/Card/Modal<br/>• FUD Mitigation • Touch Targets"]
+        ADAPTER["@obinexusltd/obix-adapter<br/>DP Adapter Pattern • Paradigm Translation<br/>• Functional ↔ OOP ↔ Reactive ↔ Data"]
+        TEL["@obinexusltd/obix-telemetry<br/>State Tracking • QA Matrix<br/>• Policy Decorators"]
+        A11Y["@obinexusltd/obix-accessibility<br/>WCAG 2.2 • Focus Management<br/>• ARIA Automation • Contrast"]
+        MOTION["@obinexusltd/obix-motion<br/>Animation System<br/>• prefers-reduced-motion"]
+        FORMS["@obinexusltd/obix-forms<br/>Validation • Autocomplete<br/>• Progressive Enhancement"]
+        ROUTER["@obinexusltd/obix-router<br/>SPA Navigation • Scroll Restore<br/>• Deep Linking • History"]
+        STATE["@obinexusltd/obix-state<br/>State Machine Minimization<br/>• Tennis Tracker Algorithm"]
+        CLI["@obinexusltd/obix-cli<br/>Build Tooling • Schema Validation<br/>• Semantic Version X • Hot Swap"]
+    end
+
+    subgraph BINDINGS["LAYER 2: Language Bindings (libpolycall Bridge)"]
+        direction LR
+        TS["TypeScript/JS"]
+        PY["Python"]
+        RS["Rust/WASM"]
+        GO["Go"]
+        CPP["C/C++"]
+        LUA["Lua"]
+        JK["Java/Kotlin"]
+        SW["Swift"]
+        CS["C#"]
+        ZIG["Zig"]
+    end
+
+    subgraph DRIVERS["LAYER 1: Native Drivers (System Interface)"]
+        direction TB
+        GPU["GPU Acceleration<br/>WebGL/WebGPU"]
+        DOM["DOM Mutation<br/>Diff/Patch Engine"]
+        ATREE["Accessibility Tree<br/>ARIA/Screen Reader"]
+        INPUT["Input Event<br/>Touch/Mouse/Keyboard"]
+        ANIM["Animation Frame<br/>rAF Scheduling"]
+        FONT["Font/Layout<br/>Text Measurement"]
+        MQ["Media Query<br/>Breakpoints/Safe Area"]
+        STORE["Storage Persistence<br/>IndexedDB/LocalStorage"]
+        NET["Network Stream<br/>WebSocket/SSE"]
+        COMPOSIT["Compositor<br/>Layer/Z-Index"]
+    end
+
+    subgraph OS["Operating System / Browser"]
+        BROWSER["Browser APIs • DOM • Canvas • WebGL • Web Audio"]
+    end
+
+    %% Top-level flow
+    INSTALL --> SDK
+    SDK --> BINDINGS
+    BINDINGS --> DRIVERS
+    DRIVERS --> OS
+
+    %% SDK internal dependencies
+    COMP --> CORE
+    ADAPTER --> CORE
+    TEL --> CORE
+    A11Y --> CORE
+    MOTION --> CORE
+    FORMS --> CORE
+    ROUTER --> CORE
+    STATE --> CORE
+    CLI --> CORE
+
+    %% SDK → Driver mappings
+    COMP --> DOM
+    COMP --> INPUT
+    A11Y --> ATREE
+    MOTION --> ANIM
+    MOTION --> GPU
+    FORMS --> INPUT
+    FORMS --> STORE
+    ROUTER --> NET
+    STATE --> STORE
+    TEL --> NET
+    CORE --> DOM
+    CORE --> STORE
+    COMP --> MQ
+    COMP --> FONT
+
+    %% Styling
+    classDef sdkCore fill:#2563eb,stroke:#1d4ed8,color:#fff
+    classDef sdkPkg fill:#3b82f6,stroke:#2563eb,color:#fff
+    classDef binding fill:#8b5cf6,stroke:#7c3aed,color:#fff
+    classDef driver fill:#059669,stroke:#047857,color:#fff
+    classDef os fill:#64748b,stroke:#475569,color:#fff
+    classDef user fill:#f59e0b,stroke:#d97706,color:#fff
+
+    class CORE sdkCore
+    class COMP,ADAPTER,TEL,A11Y,MOTION,FORMS,ROUTER,STATE,CLI sdkPkg
+    class TS,PY,RS,GO,CPP,LUA,JK,SW,CS,ZIG binding
+    class GPU,DOM,ATREE,INPUT,ANIM,FONT,MQ,STORE,NET,COMPOSIT driver
+    class BROWSER os
+    class INSTALL user

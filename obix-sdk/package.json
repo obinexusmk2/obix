@@ -1,0 +1,26 @@
+{
+  "name": "@obinexusltd/obix-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OBIX Heart/Soul UI/UX SDK - Data-Oriented Component System",
+  "author": "OBINexus <okpalan@protonmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/drivers/*",
+    "packages/bindings/*",
+    "packages/sdk/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "clean": "rm -rf packages/*/*/dist",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

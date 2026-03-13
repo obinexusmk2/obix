@@ -1,0 +1,13 @@
+{
+  "name": "@obinexusltd/obix-driver-storage-persistence",
+  "version": "0.1.0",
+  "description": "OBIX Storage Persistence Driver - LocalStorage/IndexedDB wrapper for state caching",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": { "build": "tsc", "test": "echo 'no tests yet'" },
+  "files": ["dist"],
+  "exports": { ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" } },
+  "license": "MIT",
+  "author": "OBINexus <okpalan@protonmail.com>"
+}

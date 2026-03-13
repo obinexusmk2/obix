@@ -1,0 +1,13 @@
+{
+  "name": "@obinexusltd/obix-driver-input-event",
+  "version": "0.1.0",
+  "description": "OBIX Input Event Driver - Unified touch/mouse/keyboard/pointer event normalization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": { "build": "tsc", "test": "echo 'no tests yet'" },
+  "files": ["dist"],
+  "exports": { ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" } },
+  "license": "MIT",
+  "author": "OBINexus <okpalan@protonmail.com>"
+}

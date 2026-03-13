@@ -1,0 +1,23 @@
+{
+  "name": "@obinexusltd/obix-binding-lua",
+  "version": "0.1.0",
+  "description": "OBIX Lua Binding - Game engine integration (Love2D, Roblox), scripting",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo 'no tests yet'"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "license": "MIT",
+  "author": "OBINexus <okpalan@protonmail.com>"
+}

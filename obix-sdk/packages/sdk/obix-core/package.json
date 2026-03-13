@@ -1,0 +1,19 @@
+{
+  "name": "@obinexusltd/obix-core",
+  "version": "0.1.0",
+  "description": "OBIX Heart/Soul UI/UX runtime engine - component lifecycle, state halting, data-oriented architecture",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "files": ["dist"],
+  "exports": {
+    ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" }
+  },
+  "license": "MIT",
+  "author": "OBINexus <okpalan@protonmail.com>"
+}

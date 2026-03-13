@@ -1,0 +1,23 @@
+{
+  "name": "@obinexusltd/obix-binding-zig",
+  "version": "0.1.0",
+  "description": "OBIX Zig Binding - Systems programming, compile-time optimization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo 'no tests yet'"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "license": "MIT",
+  "author": "OBINexus <okpalan@protonmail.com>"
+}
