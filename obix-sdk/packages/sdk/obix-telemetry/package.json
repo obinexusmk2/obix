@@ -7,9 +7,12 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "echo 'no tests yet'"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",

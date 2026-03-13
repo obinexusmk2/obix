@@ -3,9 +3,6 @@
  * Comprehensive event instrumentation and quality metrics collection
  */
 
-/**
- * QA Matrix - Confusion matrix for quality metrics
- */
 export interface QAMatrix {
   truePositive: number;
   trueNegative: number;
@@ -13,9 +10,6 @@ export interface QAMatrix {
   falseNegative: number;
 }
 
-/**
- * Telemetry event data structure
- */
 export interface TelemetryEvent {
   id: string;
   timestamp: number;
@@ -25,9 +19,6 @@ export interface TelemetryEvent {
   context?: Record<string, unknown>;
 }
 
-/**
- * Policy decorator for telemetry
- */
 export interface PolicyDecorator {
   name: string;
   condition: (event: TelemetryEvent) => boolean;
@@ -35,9 +26,6 @@ export interface PolicyDecorator {
   sampleRate?: number;
 }
 
-/**
- * Telemetry configuration
- */
 export interface TelemetryConfig {
   enabled: boolean;
   endpoint?: string;
@@ -46,9 +34,6 @@ export interface TelemetryConfig {
   decorators?: PolicyDecorator[];
 }
 
-/**
- * Telemetry engine interface
- */
 export interface TelemetryEngine {
   track(event: TelemetryEvent): void;
   query(filter: { eventType?: string; severity?: string }): TelemetryEvent[];
@@ -56,23 +41,76 @@ export interface TelemetryEngine {
   createPolicyDecorator(decorator: PolicyDecorator): void;
 }
 
-/**
- * Create a telemetry engine instance
- */
+const randomId = (): string => Math.random().toString(36).slice(2);
+
 export function createTelemetry(config: TelemetryConfig): TelemetryEngine {
+  const events: TelemetryEvent[] = [];
+  const decorators = [...(config.decorators ?? [])];
+
+  const emitEnvironmentEvent = (eventType: string, payload: Record<string, unknown>): void => {
+    events.push({
+      id: randomId(),
+      timestamp: Date.now(),
+      eventType,
+      payload,
+      severity: "info"
+    });
+  };
+
+  if (config.enabled && typeof window !== "undefined") {
+    window.addEventListener("offline", () => emitEnvironmentEvent("network.offline", { online: false }));
+    window.addEventListener("online", () => emitEnvironmentEvent("network.online", { online: true }));
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        emitEnvironmentEvent("tab.stale", { hidden: true });
+      }
+    });
+  }
+
   return {
     track(event: TelemetryEvent): void {
-      throw new Error("Not yet implemented");
+      if (!config.enabled) {
+        return;
+      }
+
+      let candidate = event;
+      for (const decorator of decorators) {
+        if (!decorator.condition(candidate)) {
+          continue;
+        }
+
+        if (decorator.sampleRate !== undefined && Math.random() > decorator.sampleRate) {
+          return;
+        }
+
+        candidate = decorator.transform?.(candidate) ?? candidate;
+      }
+
+      events.push(candidate);
     },
     query(filter: { eventType?: string; severity?: string }): TelemetryEvent[] {
-      throw new Error("Not yet implemented");
+      return events.filter((event) => {
+        if (filter.eventType && event.eventType !== filter.eventType) {
+          return false;
+        }
+
+        if (filter.severity && event.severity !== filter.severity) {
+          return false;
+        }
+
+        return true;
+      });
     },
     getQAMatrix(): QAMatrix {
-      throw new Error("Not yet implemented");
+      return {
+        truePositive: events.filter((event) => event.severity === "error").length,
+        trueNegative: events.filter((event) => event.severity === "debug").length,
+        falsePositive: events.filter((event) => event.severity === "warn").length,
+        falseNegative: events.filter((event) => event.severity === "info").length
+      };
     },
     createPolicyDecorator(decorator: PolicyDecorator): void {
-      throw new Error("Not yet implemented");
+      decorators.push(decorator);
     }
   };
 }
-
