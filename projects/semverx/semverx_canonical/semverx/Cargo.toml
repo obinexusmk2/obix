@@ -1,0 +1,17 @@
+[package]
+name = "semverx"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde.workspace = true
+toml.workspace = true
+petgraph.workspace = true
+sha2.workspace = true
+
+[dev-dependencies]
+quickcheck = "1.0"
+proptest = "1.4"

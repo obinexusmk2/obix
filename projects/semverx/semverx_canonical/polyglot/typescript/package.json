@@ -1,0 +1,14 @@
+{
+  "name": "@obinexus/semverx-registry",
+  "version": "0.1.0",
+  "description": "SemVerX TypeScript client with BiDAG resolution",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": ["semverx", "package-manager", "bidag"],
+  "author": "OBINexus",
+  "license": "OPENSENSE-NT"
+}

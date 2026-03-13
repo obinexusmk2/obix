@@ -35,6 +35,7 @@ export function createInput(config) {
          * Handle input change
          */
         change(value) {
+            state.value = value;
             const validation = { ...state.validation };
             // If validation timing is onChange, validate immediately
             if (state.validationTiming === 'onChange') {

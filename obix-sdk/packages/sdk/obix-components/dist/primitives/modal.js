@@ -36,6 +36,7 @@ export function createModal(config) {
             if (typeof document !== 'undefined') {
                 previousFocusedElement = document.activeElement;
             }
+            state.open = true;
             return {
                 type: 'MODAL_OPENED',
                 open: true,
@@ -47,6 +48,7 @@ export function createModal(config) {
          * Close the modal
          */
         close() {
+            state.open = false;
             return {
                 type: 'MODAL_CLOSED',
                 open: false,
