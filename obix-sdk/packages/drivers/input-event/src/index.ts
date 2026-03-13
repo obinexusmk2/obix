@@ -32,37 +32,82 @@ export interface NormalizedInputEvent {
 }
 
 export interface InputEventDriverConfig {
-  /** Root element to attach listeners to */
   rootElement: Element;
-  /** Normalize touch events */
   normalizeTouch?: boolean;
-  /** Use pointer capture */
   pointerCapture?: boolean;
-  /** Gesture detection threshold in pixels */
   gestureThreshold?: number;
 }
 
 export type InputEventHandler = (event: NormalizedInputEvent) => void;
 
 export interface InputEventDriverAPI {
-  /** Initialize input event driver */
   initialize(): Promise<void>;
-  /** Register input event listener */
   on(type: InputEventType, handler: InputEventHandler): void;
-  /** Remove input event listener */
   off(type: InputEventType, handler: InputEventHandler): void;
-  /** Check if pointer is currently pressed */
   isPointerPressed(pointerId?: string): boolean;
-  /** Get last pointer position */
   getLastPointerPosition(): [number, number] | null;
-  /** Set gesture threshold */
   setGestureThreshold(pixels: number): void;
-  /** Destroy the driver */
   destroy(): Promise<void>;
 }
 
 export function createInputEventDriver(
   config: InputEventDriverConfig
 ): InputEventDriverAPI {
-  throw new Error("Input Event Driver not yet implemented");
+  const handlers = new Map<InputEventType, Set<InputEventHandler>>();
+  const pressed = new Set<string>();
+  let lastPointer: [number, number] | null = null;
+  let gestureThreshold = config.gestureThreshold ?? 10;
+
+  const emit = (event: NormalizedInputEvent) => {
+    for (const handler of handlers.get(event.type) ?? []) {
+      handler(event);
+    }
+  };
+
+  return {
+    async initialize() {
+      for (const type of [
+        "pointerdown",
+        "pointerup",
+        "pointermove",
+        "pointercancel",
+        "keydown",
+        "keyup",
+        "keypress",
+        "gesturestart",
+        "gesturechange",
+        "gestureend",
+      ] as InputEventType[]) {
+        handlers.set(type, new Set());
+      }
+      emit({ type: "gestureend", timestamp: Date.now(), target: config.rootElement });
+    },
+    on(type, handler) {
+      if (!handlers.has(type)) {
+        handlers.set(type, new Set());
+      }
+      handlers.get(type)?.add(handler);
+    },
+    off(type, handler) {
+      handlers.get(type)?.delete(handler);
+    },
+    isPointerPressed(pointerId) {
+      if (pointerId) {
+        return pressed.has(pointerId);
+      }
+      return pressed.size > 0;
+    },
+    getLastPointerPosition() {
+      return lastPointer;
+    },
+    setGestureThreshold(pixels) {
+      gestureThreshold = Math.max(0, pixels);
+      void gestureThreshold;
+    },
+    async destroy() {
+      handlers.forEach((set) => set.clear());
+      pressed.clear();
+      lastPointer = null;
+    },
+  };
 }

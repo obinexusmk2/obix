@@ -6,6 +6,37 @@
 
 export type SchemaMode = 'monoglot' | 'polyglot' | 'hybrid';
 
+export interface InvocationEnvelope {
+  functionId: string;
+  args: unknown[];
+  metadata: {
+    schemaMode: SchemaMode;
+    binding: string;
+    timestampMs: number;
+    ffiPath: string;
+  };
+}
+
+export interface BindingInvokeError {
+  code: 'NOT_INITIALIZED' | 'MISSING_SYMBOL' | 'INVOCATION_FAILED';
+  message: string;
+  envelope: InvocationEnvelope;
+  cause?: unknown;
+}
+
+export interface BindingAbiInvoker {
+  invoke(envelopeJson: string): unknown | Promise<unknown>;
+}
+
+function normalizeFunctionIdentifier(fn: string | object): string | undefined {
+  if (typeof fn === 'string' && fn.trim()) return fn;
+  if (fn && typeof fn === 'object') {
+    const descriptor = fn as { functionId?: string; id?: string; name?: string };
+    return descriptor.functionId ?? descriptor.id ?? descriptor.name;
+  }
+  return undefined;
+}
+
 /**
  * FFI descriptor for Java/Kotlin runtime
  * Defines how Java/Kotlin interops with libpolycall
@@ -107,21 +138,60 @@ export interface JavaKotlinBindingBridge {
 export function createJavaKotlinBinding(
   config: JavaKotlinBindingConfig
 ): JavaKotlinBindingBridge {
+  let initialized = false;
+  const abiBindingName = 'java-kotlin';
   return {
     async initialize(): Promise<void> {
-      // Stub implementation
-      console.log('Initializing Java/Kotlin binding with config:', config);
+      if (typeof config.ffiPath !== 'string' || config.ffiPath.trim().length === 0) {
+        throw new Error(`Invalid ffiPath: ${config.ffiPath}`);
+      }
+      initialized = true;
     },
 
     async invoke(fn: string | object, args: unknown[]): Promise<unknown> {
-      // Stub implementation
-      console.log('Invoking Java/Kotlin function:', fn, 'with args:', args);
-      return undefined;
+      const functionId = normalizeFunctionIdentifier(fn);
+      const envelope: InvocationEnvelope = {
+        functionId: functionId ?? '<unknown>',
+        args,
+        metadata: {
+          schemaMode: config.schemaMode,
+          binding: abiBindingName,
+          timestampMs: Date.now(),
+          ffiPath: config.ffiPath,
+        },
+      };
+
+      if (!initialized) {
+        return { code: 'NOT_INITIALIZED', message: 'Binding is not initialized', envelope } satisfies BindingInvokeError;
+      }
+
+      if (!functionId) {
+        return { code: 'MISSING_SYMBOL', message: 'Function identifier was not provided', envelope } satisfies BindingInvokeError;
+      }
+
+      const abiInvoker = (globalThis as typeof globalThis & { __obixAbiInvoker?: BindingAbiInvoker }).__obixAbiInvoker;
+      if (!abiInvoker?.invoke) {
+        return {
+          code: 'MISSING_SYMBOL',
+          message: 'Required ABI symbol __obixAbiInvoker.invoke is unavailable',
+          envelope,
+        } satisfies BindingInvokeError;
+      }
+
+      try {
+        return await abiInvoker.invoke(JSON.stringify(envelope));
+      } catch (cause) {
+        return {
+          code: 'INVOCATION_FAILED',
+          message: 'Invocation failed at ABI boundary',
+          envelope,
+          cause,
+        } satisfies BindingInvokeError;
+      }
     },
 
     async destroy(): Promise<void> {
-      // Stub implementation
-      console.log('Destroying Java/Kotlin binding');
+      initialized = false;
     },
 
     getMemoryUsage() {
@@ -138,7 +208,7 @@ export function createJavaKotlinBinding(
     },
 
     isInitialized(): boolean {
-      return false; // Stub
+      return initialized;
     },
 
     async loadClass(className: string): Promise<object> {

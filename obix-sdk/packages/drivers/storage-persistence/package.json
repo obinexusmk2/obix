@@ -5,9 +5,19 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
-  "scripts": { "build": "tsc", "test": "echo 'no tests yet'" },
-  "files": ["dist"],
-  "exports": { ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" } },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "license": "MIT",
   "author": "OBINexus <okpalan@protonmail.com>"
 }

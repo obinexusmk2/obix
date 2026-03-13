@@ -4,6 +4,25 @@
  * Connects libpolycall FFI/polyglot bridge to C#/.NET runtime
  */
 export type SchemaMode = 'monoglot' | 'polyglot' | 'hybrid';
+export interface InvocationEnvelope {
+    functionId: string;
+    args: unknown[];
+    metadata: {
+        schemaMode: SchemaMode;
+        binding: string;
+        timestampMs: number;
+        ffiPath: string;
+    };
+}
+export interface BindingInvokeError {
+    code: 'NOT_INITIALIZED' | 'MISSING_SYMBOL' | 'INVOCATION_FAILED';
+    message: string;
+    envelope: InvocationEnvelope;
+    cause?: unknown;
+}
+export interface BindingAbiInvoker {
+    invoke(envelopeJson: string): unknown | Promise<unknown>;
+}
 /**
  * FFI descriptor for C# runtime
  * Defines how C# interops with libpolycall

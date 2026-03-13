@@ -31,27 +31,67 @@ export interface AccessibilityNode {
 }
 
 export interface AccessibilityTreeDriverAPI {
-  /** Initialize accessibility tree */
   initialize(): Promise<void>;
-  /** Register a live region */
-  registerLiveRegion(
-    element: Element,
-    config?: LiveRegionDefaults
-  ): Promise<void>;
-  /** Announce content to screen readers */
+  registerLiveRegion(element: Element, config?: LiveRegionDefaults): Promise<void>;
   announce(message: string, level?: AriaLiveRegion): void;
-  /** Update accessibility tree for an element */
   updateAccessibilityNode(element: Element, node: AccessibilityNode): void;
-  /** Build full accessibility tree snapshot */
   getAccessibilityTree(): AccessibilityNode;
-  /** Enable/disable screen reader optimizations */
   setScreenReaderMode(enabled: boolean): void;
-  /** Destroy the driver */
   destroy(): Promise<void>;
 }
 
 export function createAccessibilityTreeDriver(
   config: AccessibilityTreeDriverConfig
 ): AccessibilityTreeDriverAPI {
-  throw new Error("Accessibility Tree Driver not yet implemented");
+  let initialized = false;
+  let screenReaderMode = Boolean(config.screenReaderHints);
+  const nodeMap = new Map<Element, AccessibilityNode>();
+  const liveRegions = new Map<Element, LiveRegionDefaults>();
+  let lastAnnouncement = "";
+
+  return {
+    async initialize() {
+      initialized = true;
+    },
+    async registerLiveRegion(element, overrides) {
+      liveRegions.set(element, { ...config.liveRegionDefaults, ...overrides });
+    },
+    announce(message, level = "polite") {
+      lastAnnouncement = message;
+      if (typeof config.rootElement.setAttribute === "function") {
+        config.rootElement.setAttribute("aria-live", level);
+        config.rootElement.setAttribute("aria-label", message);
+      }
+    },
+    updateAccessibilityNode(element, node) {
+      nodeMap.set(element, node);
+      if (typeof element.setAttribute === "function") {
+        element.setAttribute("role", node.role);
+        if (node.label) {
+          element.setAttribute("aria-label", node.label);
+        }
+      }
+    },
+    getAccessibilityTree() {
+      const children = Array.from(nodeMap.values());
+      return {
+        role: "root",
+        label: lastAnnouncement || "accessibility-tree",
+        children,
+      };
+    },
+    setScreenReaderMode(enabled) {
+      screenReaderMode = enabled;
+      if (typeof config.rootElement.setAttribute === "function") {
+        config.rootElement.setAttribute("data-screen-reader-mode", String(screenReaderMode));
+      }
+    },
+    async destroy() {
+      initialized = false;
+      nodeMap.clear();
+      liveRegions.clear();
+      lastAnnouncement = "";
+      void initialized;
+    },
+  };
 }

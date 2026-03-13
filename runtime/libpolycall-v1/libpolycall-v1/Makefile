@@ -147,6 +147,14 @@ endif
 # ================================================================
 
 LDFLAGS :=
+DLL_LDFLAGS :=
+
+ifeq ($(PLATFORM),Windows)
+    # network.c uses Winsock socket symbols (socket/bind/closesocket/recv/send).
+    WIN_LIBS := -lws2_32
+else
+    WIN_LIBS :=
+endif
 
 ifeq ($(PLATFORM),Linux)
     LDFLAGS += -Wl,--gc-sections
@@ -201,7 +209,8 @@ DLL_CFLAGS := $(filter-out -fvisibility=hidden,$(CFLAGS)) -DPOLYCALL_DLL_EXPORT
 
 ifeq ($(PLATFORM),Windows)
     BIN_TARGET  := $(BINDIR)/$(LIBNAME).exe
-    BIN_LDFLAGS := -L$(LIBDIR) -l$(LIBNAME) -lws2_32 -lpthread
+    BIN_LDFLAGS := -L$(LIBDIR) -l$(LIBNAME) $(WIN_LIBS) -lpthread
+    DLL_LDFLAGS += $(WIN_LIBS)
 else
     BIN_TARGET  := $(BINDIR)/$(LIBNAME)
     # -rpath embeds the lib path so the binary finds libpolycall.so at runtime
@@ -285,6 +294,7 @@ $(DLL_OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(DLL_OBJDIR)
 $(DLL_TARGET): $(DLL_OBJECTS) | $(LIBDIR)
 	@$(ECHO_CMD) "$(ORANGE)Linking Windows DLL:$(RESET) $@"
 	@$(DLL_CC) -shared -o $@ $(DLL_OBJECTS) \
+		$(DLL_LDFLAGS) \
 		-Wl,--out-implib,$(DLL_EXPORT) \
 		|| ($(ECHO_CMD) "$(RED)FAIL DLL linking failed$(RESET)" && exit 1)
 	@$(ECHO_CMD) "$(GREEN)OK Windows DLL created:$(RESET) $@"
@@ -373,4 +383,3 @@ help:
 
 .DEFAULT_GOAL := help
 .PHONY: info help
-

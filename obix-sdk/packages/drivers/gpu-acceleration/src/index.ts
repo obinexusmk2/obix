@@ -4,13 +4,9 @@
  */
 
 export interface GPUAccelerationDriverConfig {
-  /** Canvas element to render to */
   canvas: HTMLCanvasElement;
-  /** Prefer WebGPU over WebGL if available */
   preferWebGPU?: boolean;
-  /** Paths to shader files */
   shaderPaths?: string[];
-  /** Enable anti-aliasing */
   antialias?: boolean;
 }
 
@@ -21,28 +17,65 @@ export interface ShaderProgram {
 }
 
 export interface GPUAccelerationDriverAPI {
-  /** Initialize the GPU context */
   initialize(): Promise<void>;
-  /** Load and compile a shader program */
   loadShader(name: string, program: ShaderProgram): Promise<void>;
-  /** Begin a render frame */
   beginFrame(): void;
-  /** End and present the render frame */
   endFrame(): void;
-  /** Clear the rendering surface */
   clear(color?: [number, number, number, number]): void;
-  /** Submit a draw call */
   drawIndexed(vertexCount: number, indexCount: number): void;
-  /** Set the active shader program */
   setShaderProgram(name: string): void;
-  /** Update shader uniform */
   setUniform(name: string, value: unknown): void;
-  /** Destroy GPU resources */
   destroy(): Promise<void>;
 }
 
 export function createGPUAccelerationDriver(
   config: GPUAccelerationDriverConfig
 ): GPUAccelerationDriverAPI {
-  throw new Error("GPU Acceleration Driver not yet implemented");
+  let activeShader = "";
+  const shaders = new Map<string, ShaderProgram>();
+  const uniforms = new Map<string, unknown>();
+  let initialized = false;
+
+  return {
+    async initialize() {
+      initialized = true;
+    },
+    async loadShader(name, program) {
+      shaders.set(name, { ...program, uniforms: { ...(program.uniforms ?? {}) } });
+    },
+    beginFrame() {
+      if (!initialized) {
+        return;
+      }
+      config.canvas.setAttribute?.("data-frame", "begin");
+    },
+    endFrame() {
+      config.canvas.setAttribute?.("data-frame", "end");
+    },
+    clear(color = [0, 0, 0, 1]) {
+      config.canvas.setAttribute?.("data-clear", color.join(","));
+    },
+    drawIndexed(vertexCount, indexCount) {
+      config.canvas.setAttribute?.("data-draw", `${vertexCount}:${indexCount}`);
+    },
+    setShaderProgram(name) {
+      if (!shaders.has(name)) {
+        throw new Error(`Shader program not found: ${name}`);
+      }
+      activeShader = name;
+    },
+    setUniform(name, value) {
+      uniforms.set(name, value);
+      const program = shaders.get(activeShader);
+      if (program) {
+        program.uniforms = { ...(program.uniforms ?? {}), [name]: value };
+      }
+    },
+    async destroy() {
+      shaders.clear();
+      uniforms.clear();
+      activeShader = "";
+      initialized = false;
+    },
+  };
 }

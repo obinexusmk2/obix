@@ -21,41 +21,85 @@ export interface SafeAreaInsets {
 export type MediaQueryChangeHandler = (matches: boolean) => void;
 
 export interface MediaQueryDriverConfig {
-  /** Custom breakpoints to track */
   breakpoints?: Breakpoint[];
-  /** Handle safe-area insets (notches, etc.) */
   safeAreaHandling?: boolean;
-  /** Lock orientation */
   orientationLock?: "portrait" | "landscape" | "auto";
 }
 
 export interface MediaQueryDriverAPI {
-  /** Initialize media query driver */
   initialize(): Promise<void>;
-  /** Register a media query listener */
   watch(query: string, handler: MediaQueryChangeHandler): void;
-  /** Unregister a media query listener */
   unwatch(query: string, handler: MediaQueryChangeHandler): void;
-  /** Check if a media query matches */
   matches(query: string): boolean;
-  /** Get current breakpoint */
   getCurrentBreakpoint(): Breakpoint | null;
-  /** Get safe-area insets */
   getSafeAreaInsets(): SafeAreaInsets;
-  /** Get viewport dimensions */
   getViewportSize(): { width: number; height: number };
-  /** Get device orientation */
   getOrientation(): "portrait" | "landscape";
-  /** Lock device orientation */
-  setOrientationLock(
-    lock: "portrait" | "landscape" | "auto"
-  ): Promise<void>;
-  /** Destroy the driver */
+  setOrientationLock(lock: "portrait" | "landscape" | "auto"): Promise<void>;
   destroy(): Promise<void>;
 }
 
 export function createMediaQueryDriver(
   config: MediaQueryDriverConfig
 ): MediaQueryDriverAPI {
-  throw new Error("Media Query Driver not yet implemented");
+  const watchers = new Map<string, Set<MediaQueryChangeHandler>>();
+  let orientationLock = config.orientationLock ?? "auto";
+
+  const viewport = () => ({
+    width: typeof window !== "undefined" ? window.innerWidth : 1024,
+    height: typeof window !== "undefined" ? window.innerHeight : 768,
+  });
+
+  return {
+    async initialize() {},
+    watch(query, handler) {
+      if (!watchers.has(query)) {
+        watchers.set(query, new Set());
+      }
+      watchers.get(query)?.add(handler);
+      handler(this.matches(query));
+    },
+    unwatch(query, handler) {
+      watchers.get(query)?.delete(handler);
+    },
+    matches(query) {
+      if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+        return window.matchMedia(query).matches;
+      }
+      return false;
+    },
+    getCurrentBreakpoint() {
+      const size = viewport();
+      for (const bp of config.breakpoints ?? []) {
+        const widthOk = (bp.minWidth ?? 0) <= size.width && (bp.maxWidth ?? Infinity) >= size.width;
+        const heightOk = (bp.minHeight ?? 0) <= size.height && (bp.maxHeight ?? Infinity) >= size.height;
+        if (widthOk && heightOk) {
+          return bp;
+        }
+      }
+      return null;
+    },
+    getSafeAreaInsets() {
+      if (!config.safeAreaHandling) {
+        return { top: 0, right: 0, bottom: 0, left: 0 };
+      }
+      return { top: 0, right: 0, bottom: 0, left: 0 };
+    },
+    getViewportSize() {
+      return viewport();
+    },
+    getOrientation() {
+      const size = viewport();
+      if (orientationLock !== "auto") {
+        return orientationLock;
+      }
+      return size.width >= size.height ? "landscape" : "portrait";
+    },
+    async setOrientationLock(lock) {
+      orientationLock = lock;
+    },
+    async destroy() {
+      watchers.clear();
+    },
+  };
 }

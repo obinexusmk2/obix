@@ -26,19 +26,12 @@ export interface AccessibilityNode {
     children?: AccessibilityNode[];
 }
 export interface AccessibilityTreeDriverAPI {
-    /** Initialize accessibility tree */
     initialize(): Promise<void>;
-    /** Register a live region */
     registerLiveRegion(element: Element, config?: LiveRegionDefaults): Promise<void>;
-    /** Announce content to screen readers */
     announce(message: string, level?: AriaLiveRegion): void;
-    /** Update accessibility tree for an element */
     updateAccessibilityNode(element: Element, node: AccessibilityNode): void;
-    /** Build full accessibility tree snapshot */
     getAccessibilityTree(): AccessibilityNode;
-    /** Enable/disable screen reader optimizations */
     setScreenReaderMode(enabled: boolean): void;
-    /** Destroy the driver */
     destroy(): Promise<void>;
 }
 export declare function createAccessibilityTreeDriver(config: AccessibilityTreeDriverConfig): AccessibilityTreeDriverAPI;

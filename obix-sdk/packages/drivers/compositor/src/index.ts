@@ -20,41 +20,87 @@ export interface CompositorLayer {
 }
 
 export interface CompositorDriverConfig {
-  /** Maximum number of layers to manage */
   maxLayers?: number;
-  /** Enable occlusion culling optimization */
   occlusionCulling?: boolean;
-  /** Z-index management strategy */
   zIndexStrategy?: ZIndexStrategy;
 }
 
 export interface CompositorDriverAPI {
-  /** Initialize compositor driver */
   initialize(): Promise<void>;
-  /** Create a new layer */
   createLayer(id: string, element: Element, zIndex: number): Promise<void>;
-  /** Remove a layer */
   removeLayer(id: string): Promise<void>;
-  /** Update layer z-index */
   setZIndex(id: string, zIndex: number): void;
-  /** Get all layers */
   getLayers(): CompositorLayer[];
-  /** Get layer by ID */
   getLayer(id: string): CompositorLayer | null;
-  /** Check if layer is occluded */
   isOccluded(id: string): boolean;
-  /** Optimize layer stacking */
   optimize(): void;
-  /** Rebuild stacking context */
   rebuildStackingContext(): Promise<void>;
-  /** Get occlusion map */
   getOcclusionMap(): Map<string, boolean>;
-  /** Destroy the driver */
   destroy(): Promise<void>;
 }
 
 export function createCompositorDriver(
   config: CompositorDriverConfig
 ): CompositorDriverAPI {
-  throw new Error("Compositor Driver not yet implemented");
+  const layers = new Map<string, CompositorLayer>();
+  const maxLayers = config.maxLayers ?? Number.MAX_SAFE_INTEGER;
+
+  const recomputeOcclusion = () => {
+    if (!config.occlusionCulling) {
+      layers.forEach((layer) => {
+        layer.isOccluded = false;
+      });
+      return;
+    }
+    const sorted = Array.from(layers.values()).sort((a, b) => b.zIndex - a.zIndex);
+    const seen = new Set<string>();
+    for (const layer of sorted) {
+      layer.isOccluded = seen.size > 0;
+      seen.add(layer.id);
+    }
+  };
+
+  return {
+    async initialize() {},
+    async createLayer(id, element, zIndex) {
+      if (layers.size >= maxLayers) {
+        throw new Error("Maximum layer count reached");
+      }
+      layers.set(id, { id, element, zIndex, isVisible: true, isOccluded: false });
+      recomputeOcclusion();
+    },
+    async removeLayer(id) {
+      layers.delete(id);
+      recomputeOcclusion();
+    },
+    setZIndex(id, zIndex) {
+      const layer = layers.get(id);
+      if (!layer) {
+        return;
+      }
+      layer.zIndex = zIndex;
+      recomputeOcclusion();
+    },
+    getLayers() {
+      return Array.from(layers.values()).sort((a, b) => a.zIndex - b.zIndex);
+    },
+    getLayer(id) {
+      return layers.get(id) ?? null;
+    },
+    isOccluded(id) {
+      return Boolean(layers.get(id)?.isOccluded);
+    },
+    optimize() {
+      recomputeOcclusion();
+    },
+    async rebuildStackingContext() {
+      recomputeOcclusion();
+    },
+    getOcclusionMap() {
+      return new Map(Array.from(layers.entries()).map(([id, layer]) => [id, Boolean(layer.isOccluded)]));
+    },
+    async destroy() {
+      layers.clear();
+    },
+  };
 }

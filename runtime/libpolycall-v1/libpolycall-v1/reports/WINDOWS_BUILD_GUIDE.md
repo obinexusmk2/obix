@@ -15,6 +15,7 @@ LibPolyCall now features a **complete Windows build system** with:
 ✅ **Color-Coded Output** - Red (errors), Amber (warnings), Green (success), Blue (info)
 ✅ **Windows PowerShell Script** - `build-windows.ps1` for easy compilation
 ✅ **Cross-Platform Makefile** - Updated with Windows command support
+✅ **Aligned Linker Assumptions** - Makefile and `build-windows.ps1` both link Winsock (`-lws2_32`) for `network.c` socket symbols
 ✅ **Multiple Compiler Support** - GCC (MinGW), Clang, MSVC
 ✅ **Zero Unix Dependencies** - No need for WSL or Cygwin
 
