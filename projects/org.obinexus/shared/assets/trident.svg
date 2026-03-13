@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" fill="none">
+  <!-- OBINexus Trident Symbol: OHA | IWU | IJI -->
+  <!-- Top chevrons (crown/knowledge) -->
+  <path d="M100 10 L70 50 L80 50 L100 30 L120 50 L130 50 Z" fill="currentColor"/>
+  <path d="M100 25 L75 58 L83 58 L100 40 L117 58 L125 58 Z" fill="currentColor"/>
+  <!-- Vertical stem (law/spine) -->
+  <rect x="94" y="55" width="12" height="150" rx="2" fill="currentColor"/>
+  <!-- Left arm (OHA - public) -->
+  <path d="M94 130 L50 100 L45 108 L90 140" fill="currentColor"/>
+  <path d="M50 100 L40 95 L35 103 L45 108" fill="currentColor"/>
+  <!-- Right arm (IJI - order) -->
+  <path d="M106 130 L150 100 L155 108 L110 140" fill="currentColor"/>
+  <path d="M150 100 L160 95 L165 103 L155 108" fill="currentColor"/>
+  <!-- Bottom chevrons (foundation) -->
+  <path d="M100 205 L130 240 L120 240 L100 220 L80 240 L70 240 Z" fill="currentColor"/>
+  <path d="M100 220 L125 248 L117 248 L100 232 L83 248 L75 248 Z" fill="currentColor"/>
+  <path d="M100 235 L120 260 L114 260 L100 246 L86 260 L80 260 Z" fill="currentColor"/>
+</svg>

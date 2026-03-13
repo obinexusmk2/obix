@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBINexus — When Systems Fail, Build Your Own</title>
+  <meta name="description" content="OBINexus: Heart-soul connection that makes systems human. Trident governance through OHA (Public), IWU (Law), and IJI (Order).">
+  <meta name="author" content="Nnamdi Michael Okpala">
+  <link rel="stylesheet" href="/shared/styles/governance.css">
+  <style>
+    /* Trident divider */
+    .trident-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-xl) 0;
+    }
+    .trident-divider svg {
+      width: 40px;
+      height: 60px;
+      color: var(--obi-gold);
+      opacity: 0.4;
+    }
+    .trident-divider::before,
+    .trident-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(240, 236, 228, 0.08);
+      max-width: 200px;
+    }
+
+    /* Governance matrix */
+    .governance-matrix {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(240, 236, 228, 0.06);
+      margin: var(--space-xl) auto;
+      max-width: 1200px;
+    }
+    .matrix-cell {
+      background: var(--obi-black);
+      padding: var(--space-lg);
+    }
+    .matrix-header {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--obi-gold);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid rgba(197, 165, 90, 0.2);
+      margin-bottom: var(--space-sm);
+    }
+
+    /* Nsibidi reference */
+    .nsibidi-note {
+      font-size: 0.8rem;
+      color: var(--obi-muted);
+      font-style: italic;
+      text-align: center;
+      padding: var(--space-md);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav-governance">
+    <a href="/" class="nav-logo">
+      <svg viewBox="0 0 200 280" fill="currentColor">
+        <path d="M100 10 L70 50 L80 50 L100 30 L120 50 L130 50 Z"/>
+        <path d="M100 25 L75 58 L83 58 L100 40 L117 58 L125 58 Z"/>
+        <rect x="94" y="55" width="12" height="150" rx="2"/>
+        <path d="M94 130 L50 100 L45 108 L90 140"/>
+        <path d="M50 100 L40 95 L35 103 L45 108"/>
+        <path d="M106 130 L150 100 L155 108 L110 140"/>
+        <path d="M150 100 L160 95 L165 103 L155 108"/>
+        <path d="M100 205 L130 240 L120 240 L100 220 L80 240 L70 240 Z"/>
+        <path d="M100 220 L125 248 L117 248 L100 232 L83 248 L75 248 Z"/>
+      </svg>
+      OBINexus
+    </a>
+    <ul class="nav-links">
+      <li><a href="/oha" data-division="oha">OHA &middot; Public</a></li>
+      <li><a href="/iwu" data-division="iwu">IWU &middot; Law</a></li>
+      <li><a href="/iji" data-division="iji">IJI &middot; Order</a></li>
+      <li><a href="https://github.com/obinexus" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero — F-Pattern Layout -->
+  <section class="hero f-pattern">
+    <div class="f-row-full">
+      <p class="hero-author">Nnamdi Michael Okpala</p>
+      <h1 class="hero-motto">When Systems Fail,<br>Build Your Own.</h1>
+      <p class="hero-subtitle">— and I did just that.</p>
+      <p style="color: var(--obi-muted); max-width: 600px; margin-bottom: var(--space-lg);">
+        OBINexus is the heart-soul connection that makes systems human.
+        A trident governance of public access, law enforcement, and ordered structure —
+        rooted in Igbo wisdom, encoded in auditable code.
+      </p>
+      <a href="https://github.com/obinexus" class="cta-btn">Explore the Codebase</a>
+    </div>
+  </section>
+
+  <!-- Trident Divider -->
+  <div class="trident-divider">
+    <svg viewBox="0 0 200 280" fill="currentColor">
+      <path d="M100 10 L70 50 L80 50 L100 30 L120 50 L130 50 Z"/>
+      <rect x="94" y="55" width="12" height="150" rx="2"/>
+      <path d="M94 130 L50 100 L45 108 L90 140"/>
+      <path d="M106 130 L150 100 L155 108 L110 140"/>
+      <path d="M100 205 L130 240 L120 240 L100 220 L80 240 L70 240 Z"/>
+    </svg>
+  </div>
+
+  <!-- Persona Model: Uche | Eze | Obi -->
+  <section class="section">
+    <p class="section-label">The Three Personas</p>
+    <h2 style="margin-bottom: var(--space-lg);">Tripolar Governance Identity</h2>
+  </section>
+
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-symbol" style="color: var(--oha-color);">&#x1D4E4;</div>
+      <h3 class="persona-name">Uche</h3>
+      <p class="persona-igbo">Knowledge</p>
+      <p class="persona-role">The child model. Learning, observing, growing. 75% knowledge, 25% power. The phenomenological lens that watches before it acts.</p>
+    </div>
+    <div class="persona-card">
+      <div class="persona-symbol" style="color: var(--iji-color);">&#x1D4D4;</div>
+      <h3 class="persona-name">Eze</h3>
+      <p class="persona-igbo">King</p>
+      <p class="persona-role">The decisive one. Holds the pen and the sword. Can write you a house or make you homeless. The judge who acts in a flash — 95.4% coherence.</p>
+    </div>
+    <div class="persona-card">
+      <div class="persona-symbol" style="color: var(--iwu-color);">&#x1D4DE;</div>
+      <h3 class="persona-name">Obi</h3>
+      <p class="persona-igbo">Heart</p>
+      <p class="persona-role">The physical form and soul. The compound — where the PhD lives. My heart acts in the world; my soul holds my resonance. The human-in-the-loop.</p>
+    </div>
+  </div>
+
+  <!-- Trident Governance Divisions -->
+  <div class="trident-divider">
+    <svg viewBox="0 0 200 280" fill="currentColor">
+      <path d="M100 10 L70 50 L80 50 L100 30 L120 50 L130 50 Z"/>
+      <rect x="94" y="55" width="12" height="150" rx="2"/>
+      <path d="M94 130 L50 100 L45 108 L90 140"/>
+      <path d="M106 130 L150 100 L155 108 L110 140"/>
+      <path d="M100 205 L130 240 L120 240 L100 220 L80 240 L70 240 Z"/>
+    </svg>
+  </div>
+
+  <section class="section">
+    <p class="section-label">Trident Governance Architecture</p>
+    <h2 style="margin-bottom: var(--space-xl);">Three Divisions of Constitutional Governance</h2>
+  </section>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-lg);">
+    <!-- OHA -->
+    <a href="/oha" style="text-decoration: none; color: inherit;">
+      <div class="division-card" data-division="oha" style="margin-bottom: var(--space-md);">
+        <p class="division-label">OHA &middot; Public Division</p>
+        <h3 class="division-title">Public Access &amp; Open Governance</h3>
+        <p class="division-desc">
+          The public-facing infrastructure of OBINexus. Open access design, technology services,
+          and the interface through which every citizen interacts with the governance system.
+          Tier 1 — open access. GitHub pages, documentation, public repositories.
+        </p>
+      </div>
+    </a>
+
+    <!-- IWU -->
+    <a href="/iwu" style="text-decoration: none; color: inherit;">
+      <div class="division-card" data-division="iwu" style="margin-bottom: var(--space-md);">
+        <p class="division-label">IWU &middot; Law Division</p>
+        <h3 class="division-title">Law Enforcement &amp; Constitutional Compliance</h3>
+        <p class="division-desc">
+          The main legal infrastructure. Anti-fragmented governance that is not a single point
+          of failure. Protected law and protected order. The #NoGhosting enforcement layer
+          and legislative mandate via the Section 124 filing.
+        </p>
+      </div>
+    </a>
+
+    <!-- IJI -->
+    <a href="/iji" style="text-decoration: none; color: inherit;">
+      <div class="division-card" data-division="iji" style="margin-bottom: var(--space-md);">
+        <p class="division-label">IJI &middot; Order Division</p>
+        <h3 class="division-title">Structural Order &amp; System Coherence</h3>
+        <p class="division-desc">
+          The computational backbone. RiftLang governance framework using memory, token type,
+          and token validation as supervision state. Judge, jury, and autonomous agent.
+          Human-on-the-loop, human-in-the-loop, human-out-the-loop.
+        </p>
+      </div>
+    </a>
+  </div>
+
+  <!-- Tier Access Model -->
+  <div class="trident-divider">
+    <svg viewBox="0 0 200 280" fill="currentColor">
+      <path d="M100 10 L70 50 L80 50 L100 30 L120 50 L130 50 Z"/>
+      <rect x="94" y="55" width="12" height="150" rx="2"/>
+      <path d="M94 130 L50 100 L45 108 L90 140"/>
+      <path d="M106 130 L150 100 L155 108 L110 140"/>
+      <path d="M100 205 L130 240 L120 240 L100 220 L80 240 L70 240 Z"/>
+    </svg>
+  </div>
+
+  <section class="section">
+    <p class="section-label">Access Tiers</p>
+    <h2 style="margin-bottom: var(--space-md);">Governance Access Matrix</h2>
+  </section>
+
+  <div class="tier-grid">
+    <div class="tier-cell">
+      <p class="tier-label">Tier 1</p>
+      <h4 class="tier-title">Open Access</h4>
+      <p class="tier-desc">Public repositories, documentation, open-source artifacts. Neurodivergent and neurotypical. GitHub, TikTok, YouTube — everything open to the world.</p>
+    </div>
+    <div class="tier-cell">
+      <p class="tier-label">Tier 2</p>
+      <h4 class="tier-title">Business Access</h4>
+      <p class="tier-desc">Registered schema, licensed operations. Business alignment with OBINexus constitution. The chain starts with your motor — register with a schema.</p>
+    </div>
+    <div class="tier-cell">
+      <p class="tier-label">Tier 3A</p>
+      <h4 class="tier-title">Knowledge Projects</h4>
+      <p class="tier-desc">Research and development. The PhD roadmap. Life-breath-work cycle applied to 10-year project windows. SemVerX evolution model.</p>
+    </div>
+    <div class="tier-cell">
+      <p class="tier-label">Tier 3B</p>
+      <h4 class="tier-title">Safety-Critical</h4>
+      <p class="tier-desc">Privileged access for safety-critical systems. 95.4% coherence testing, V-gating alignment, human-centric nature verification.</p>
+    </div>
+    <div class="tier-cell">
+      <p class="tier-label">Design</p>
+      <h4 class="tier-title">Soul Division</h4>
+      <p class="tier-desc">Expressive sovereignty, resonance, culture. Rituals, symbols, narratives that keep humans present in technology.</p>
+    </div>
+    <div class="tier-cell">
+      <p class="tier-label">Technology</p>
+      <h4 class="tier-title">Heart Division</h4>
+      <p class="tier-desc">Polyglot architecture, governance-by-construction. Auditable protocols, thread-safe systems, LibPolyCall runtime.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-governance">
+    <p style="margin-bottom: var(--space-sm);">
+      OBINexus &middot; Nnamdi Michael Okpala &middot; Unlicense
+    </p>
+    <p>
+      <a href="https://github.com/obinexus">GitHub</a> &middot;
+      <a href="https://medium.com/@obinexus">Medium</a> &middot;
+      <a href="https://dev.to/obinexus">Dev.to</a> &middot;
+      <a href="https://x.com/obinexus">X</a> &middot;
+      <a href="https://youtube.com/@OBINexus">YouTube</a>
+    </p>
+    <p class="nsibidi-note" style="margin-top: var(--space-md);">
+      Breathing without living is suffering. To live never means you're alive.
+    </p>
+  </footer>
+
+</body>
+</html>

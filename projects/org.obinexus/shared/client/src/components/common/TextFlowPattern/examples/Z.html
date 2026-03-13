@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Pattern Layout Example</title>
+    <style>
+        :root {
+            --primary-red: #F71735;
+            --secondary-purple: #594157;
+            --tertiary-teal: #046865;
+            --accent-orange: #F18F01;
+            --highlight-blue: #1170FF;
+            --background-primary: #ffffff;
+            --background-secondary: #f8f9fa;
+            --background-tertiary: #f1f3f5;
+            --spacing-base: 1rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background-primary);
+        }
+
+        .z-pattern {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        .controls {
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .toggle-button {
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary-purple);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-button:hover {
+            background: var(--secondary-purple-dark, #3c2c3b);
+        }
+
+        .z-pattern__title {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            color: var(--secondary-purple);
+        }
+
+        .z-pattern__section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+        }
+
+        .z-pattern__section::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: linear-gradient(
+                to right, 
+                transparent, 
+                var(--secondary-purple), 
+                transparent
+            );
+            transform: rotate(-15deg);
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .z-pattern__content {
+            padding: var(--spacing-lg);
+            background: var(--background-secondary);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .z-pattern__content:hover {
+            transform: translateY(-4px);
+        }
+
+        .z-pattern__content.left {
+            text-align: left;
+        }
+
+        .z-pattern__content.right {
+            text-align: right;
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(
+                90deg,
+                #f0f0f0 25%,
+                #f8f8f8 50%,
+                #f0f0f0 75%
+            );
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        .skeleton-text {
+            height: 1em;
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .skeleton-text:nth-child(2) { width: 95%; }
+        .skeleton-text:nth-child(3) { width: 85%; }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @media (max-width: 768px) {
+            .z-pattern__section {
+                grid-template-columns: 1fr;
+            }
+            
+            .z-pattern__content.right {
+                text-align: left;
+            }
+
+            .z-pattern__section::after {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .z-pattern__content,
+            .skeleton {
+                transition: none;
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="z-pattern">
+        <div class="controls">
+            <button class="toggle-button" onclick="toggleLoading()">Toggle Loading State</button>
+        </div>
+
+        <div id="content-container"></div>
+    </div>
+
+    <script>
+        let isLoading = true;
+        const content = {
+            title: "Z-Pattern Layout Example",
+            sections: [
+                {
+                    leftContent: "The Z-Pattern layout follows the natural eye scanning pattern of users, starting from the top left and moving to the right in a Z shape.",
+                    rightContent: "This makes it ideal for landing pages and content where you want to guide users through key information points."
+                },
+                {
+                    leftContent: "Each section maintains visual balance while creating a natural flow from one element to the next.",
+                    rightContent: "The Z-pattern helps maintain hierarchy and guides users through content in a logical sequence."
+                }
+            ]
+        };
+
+        function renderSkeleton() {
+            return `
+                <div class="z-pattern__title skeleton">
+                    <div class="skeleton-text"></div>
+                </div>
+                ${Array(2).fill().map(() => `
+                    <div class="z-pattern__section">
+                        <div class="z-pattern__content left">
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                        <div class="z-pattern__content right">
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function renderContent() {
+            return `
+                <div class="z-pattern__title">
+                    <h1>${content.title}</h1>
+                </div>
+                ${content.sections.map(section => `
+                    <div class="z-pattern__section">
+                        <div class="z-pattern__content left">
+                            ${section.leftContent}
+                        </div>
+                        <div class="z-pattern__content right">
+                            ${section.rightContent}
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function toggleLoading() {
+            isLoading = !isLoading;
+            render();
+            
+            // Update button text for accessibility
+            const button = document.querySelector('.toggle-button');
+            button.setAttribute('aria-pressed', isLoading.toString());
+        }
+
+        function render() {
+            const container = document.getElementById('content-container');
+            container.innerHTML = isLoading ? renderSkeleton() : renderContent();
+        }
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>

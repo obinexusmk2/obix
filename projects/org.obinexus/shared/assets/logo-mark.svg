@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" fill="none">
+  <!-- OBINexus II Logo Mark (from uploaded brand image) -->
+  <!-- Large I -->
+  <rect x="20" y="20" width="100" height="12" rx="3" fill="currentColor"/>
+  <rect x="60" y="20" width="12" height="140" rx="3" fill="currentColor"/>
+  <rect x="20" y="148" width="100" height="12" rx="3" fill="currentColor"/>
+  <!-- Small I -->
+  <rect x="130" y="50" width="80" height="10" rx="3" fill="currentColor"/>
+  <rect x="162" y="50" width="10" height="90" rx="3" fill="currentColor"/>
+  <rect x="130" y="130" width="80" height="10" rx="3" fill="currentColor"/>
+</svg>
