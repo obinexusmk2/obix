@@ -19,5 +19,8 @@
     }
   },
   "license": "MIT",
-  "author": "OBINexus <okpalan@protonmail.com>"
+  "author": "OBINexus <okpalan@protonmail.com>",
+  "publishConfig": {
+    "access": "public"
+  }
 }

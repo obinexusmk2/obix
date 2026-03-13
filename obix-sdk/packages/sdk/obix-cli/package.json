@@ -9,7 +9,9 @@
     "build": "tsc",
     "test": "echo 'no tests yet'"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -20,5 +22,8 @@
   "author": "OBINexus <okpalan@protonmail.com>",
   "peerDependencies": {
     "@obinexusltd/obix-core": "^0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
