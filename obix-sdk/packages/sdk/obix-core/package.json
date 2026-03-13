@@ -10,10 +10,18 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
-    ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" }
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "license": "MIT",
-  "author": "OBINexus <okpalan@protonmail.com>"
+  "author": "OBINexus <okpalan@protonmail.com>",
+  "publishConfig": {
+    "access": "public"
+  }
 }
