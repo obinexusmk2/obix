@@ -1,0 +1,7 @@
+{
+  "name": "@obinexus/shared",
+  "version": "1.0.0",
+  "description": "Shared assets and styles for OBINexus governance sites",
+  "license": "Unlicense",
+  "main": "index.js"
+}

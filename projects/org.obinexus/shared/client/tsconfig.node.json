@@ -1,0 +1,54 @@
+{
+    "compilerOptions": {
+        // Specify ECMAScript target version
+        "target": "ESNext",
+        // Module system for the application
+        "module": "ESNext",
+        // Use Node.js module resolution strategy
+        "moduleResolution": "Node",
+        // Enable strict type checking
+        "strict": true,
+        // Specify module detection for CommonJS/AMD imports
+        "allowSyntheticDefaultImports": true,
+        // Enable importing JSON modules
+        "resolveJsonModule": true,
+        // Enable source maps
+        "sourceMap": true,
+        // Enforce case-sensitivity in file names
+        "forceConsistentCasingInFileNames": true,
+        // Skip type checking of declaration files
+        "skipLibCheck": true,
+        // Enable importing CommonJS modules
+        "esModuleInterop": true,
+        // Enable experimental decorators
+        "experimentalDecorators": true,
+        // Enable emit interop between CommonJS and ES modules
+        "allowJs": true,
+        // Check JS files
+        "checkJs": true,
+        // Create declaration files
+        "declaration": true,
+        // Specify output directory for declaration files
+        "declarationDir": "./dist/types",
+        // Ensure each file can be safely transpiled
+        "isolatedModules": true,
+        // Include runtime for async operations
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        // Specify type definitions
+        "types": ["node", "vite/client"],
+        // Output directory
+        "outDir": "./dist",
+        // Base directory for resolving non-relative module names
+        "baseUrl": ".",
+        // Composite project setting for references
+        "composite": true
+    },
+    // Files to include
+    "include": ["vite.config.*", "vitest.config.*", "cypress.config.*"],
+    // Files to exclude
+    "exclude": ["node_modules", "dist"]
+}

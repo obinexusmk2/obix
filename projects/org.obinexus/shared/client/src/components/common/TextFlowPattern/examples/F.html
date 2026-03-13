@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F-Pattern Layout Component</title>
+    <style>
+        :root {
+            /* Color palette from theme.css */
+            --primary-red: #F71735;
+            --secondary-purple: #594157;
+            --tertiary-teal: #046865;
+            --accent-orange: #F18F01;
+            --highlight-blue: #1170FF;
+            
+            /* Text colors */
+            --text-primary: var(--secondary-purple-dark);
+            --text-secondary: var(--secondary-purple);
+            --text-muted: rgba(89, 65, 87, 0.7);
+            
+            /* Background colors */
+            --background-primary: #ffffff;
+            --background-secondary: #f8f9fa;
+            --background-tertiary: #f1f3f5;
+            
+            /* Spacing */
+            --spacing-base: 1rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+        }
+
+        .f-pattern {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .f-pattern__header {
+            padding: var(--spacing-lg);
+            background: var(--secondary-purple);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .f-pattern__section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .f-pattern__content {
+            padding: var(--spacing-lg);
+            background: var(--background-secondary);
+            border-radius: 8px;
+        }
+
+        .f-pattern__sidebar {
+            padding: var(--spacing-lg);
+            background: var(--background-tertiary);
+            border-radius: 8px;
+        }
+
+        /* Drop cap styling */
+        .with-drop-cap::first-letter {
+            float: left;
+            font-size: 3.5em;
+            line-height: 0.8;
+            padding-right: 0.1em;
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(
+                90deg,
+                #f0f0f0 25%,
+                #f8f8f8 50%,
+                #f0f0f0 75%
+            );
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        .skeleton-text {
+            height: 1em;
+            margin-bottom: 0.5em;
+            border-radius: 4px;
+        }
+
+        .skeleton-text:nth-child(2) { width: 95%; }
+        .skeleton-text:nth-child(3) { width: 85%; }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Controls */
+        .controls {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .toggle-button {
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary-purple);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-button:hover {
+            background: var(--secondary-purple-dark);
+        }
+
+        @media (max-width: 768px) {
+            .f-pattern__section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="toggle-button" onclick="toggleLoading()">Toggle Loading State</button>
+    </div>
+
+    <div class="f-pattern" id="f-pattern-container"></div>
+
+    <script>
+        let isLoading = true;
+        const content = {
+            header: "F-Pattern Layout Demonstration",
+            sections: [
+                {
+                    mainContent: "This is a demonstration of an F-Pattern layout, which is commonly used for content-heavy pages. The pattern follows the natural reading behavior of users who tend to scan pages in an F-shaped pattern.",
+                    sidebarContent: "Supporting information for section 1"
+                },
+                {
+                    mainContent: "The F-Pattern is particularly effective for text-heavy designs where users are likely to scan for information. It organizes content in a way that matches natural reading patterns.",
+                    sidebarContent: "Supporting information for section 2"
+                }
+            ]
+        };
+
+        function renderSkeleton() {
+            return `
+                <div class="f-pattern__header skeleton">
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text"></div>
+                </div>
+                ${Array(2).fill().map(() => `
+                    <div class="f-pattern__section">
+                        <div class="f-pattern__content">
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                        <div class="f-pattern__sidebar">
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function renderContent() {
+            return `
+                <div class="f-pattern__header">
+                    <h1>${content.header}</h1>
+                </div>
+                ${content.sections.map(section => `
+                    <div class="f-pattern__section">
+                        <div class="f-pattern__content with-drop-cap">
+                            ${section.mainContent}
+                        </div>
+                        <div class="f-pattern__sidebar">
+                            ${section.sidebarContent}
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function toggleLoading() {
+            isLoading = !isLoading;
+            render();
+        }
+
+        function render() {
+            const container = document.getElementById('f-pattern-container');
+            container.innerHTML = isLoading ? renderSkeleton() : renderContent();
+        }
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>

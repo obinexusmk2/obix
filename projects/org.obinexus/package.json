@@ -1,0 +1,24 @@
+{
+  "name": "@obinexus/workspace",
+  "version": "1.0.0",
+  "description": "OBINexus Trident Governance — Heart-soul connection that makes systems human",
+  "author": "Nnamdi Michael Okpala <okpalan@protonmail.com>",
+  "license": "Unlicense",
+  "private": true,
+  "workspaces": [
+    "obinexus.org",
+    "oha.obinexus.org",
+    "iwu.obinexus.org",
+    "iji.obinexus.org",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "start": "node server.js",
+    "serve": "npx http-server ./dist -p 8080 -c-1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

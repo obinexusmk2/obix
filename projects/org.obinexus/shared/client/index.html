@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nnamdi Okpala - Software Engineer & Innovator</title>
+    <link rel="stylesheet" href="/assets/theme.css">
+    
+    <style>
+        :root {
+            /* Color palette */
+            --primary-red: #F71735;
+            --secondary-purple: #594157;
+            --tertiary-teal: #046865;
+            --accent-orange: #F18F01;
+            --highlight-blue: #1170FF;
+            
+            /* Backgrounds */
+            --background-primary: #ffffff;
+            --background-secondary: #f8f9fa;
+            --background-tertiary: #f1f3f5;
+            
+            /* Typography */
+            --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-family-mono: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-family-primary);
+            background: var(--background-primary);
+            color: var(--secondary-purple);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(
+                135deg,
+                var(--background-primary),
+                var(--background-secondary)
+            );
+        }
+
+        .hero__content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero__title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-purple);
+        }
+
+        .hero__subtitle {
+            font-size: 1.5rem;
+            color: var(--tertiary-teal);
+            margin-bottom: 2rem;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav__logo {
+            font-weight: bold;
+            color: var(--secondary-purple);
+            text-decoration: none;
+            font-size: 1.25rem;
+        }
+
+        .nav__links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav__link {
+            color: var(--secondary-purple);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav__link:hover {
+            color: var(--primary-red);
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 4rem 2rem;
+        }
+
+        .projects__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--background-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Innovations Section */
+        .innovations {
+            padding: 4rem 2rem;
+            background: var(--background-secondary);
+        }
+
+        .innovations__content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 4rem 2rem;
+        }
+
+        .skills__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skill-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--background-secondary);
+            border-radius: 8px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 2rem;
+            background: var(--background-secondary);
+        }
+
+        .contact__content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background: var(--secondary-purple);
+            color: white;
+            text-align: center;
+        }
+
+        /* Components */
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--secondary-purple);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-red);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background: var(--secondary-purple);
+        }
+
+        @media (max-width: 768px) {
+            .hero__title {
+                font-size: 2.5rem;
+            }
+
+            .hero__subtitle {
+                font-size: 1.25rem;
+            }
+
+            .nav__links {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .project-card,
+            .button {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="#" class="nav__logo">Nnamdi Okpala</a>
+        <div class="nav__links">
+            <a href="#about" class="nav__link">About</a>
+            <a href="#projects" class="nav__link">Projects</a>
+            <a href="#innovations" class="nav__link">Innovations</a>
+            <a href="#contact" class="nav__link">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Software Engineer & Innovator</h1>
+            <p class="hero__subtitle">Specializing in State Machine Optimization & Software Architecture</p>
+            <a href="#contact" class="button">Get in Touch</a>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects__grid">
+            <article class="project-card">
+                <h3>Automaton State Minimization</h3>
+                <p>Advanced research and implementation in finite state machine optimization.</p>
+                <a href="/projects/automaton" class="button">Learn More</a>
+            </article>
+            <article class="project-card">
+                <h3>Text Flow Patterns</h3>
+                <p>Implementation of F, T, and Z pattern layouts for optimal content readability.</p>
+                <a href="/projects/textflow" class="button">View Patterns</a>
+            </article>
+            <article class="project-card">
+                <h3>Tennis Score Tracker</h3>
+                <p>State machine application for real-time tennis score tracking.</p>
+                <a href="/projects/tennis" class="button">See Demo</a>
+            </article>
+        </div>
+    </section>
+
+    <section id="innovations" class="innovations">
+        <div class="innovations__content">
+            <!-- Z-Pattern component will be mounted here -->
+            <z-pattern-layout></z-pattern-layout>
+        </div>
+    </section>
+
+    <section class="skills">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills__grid">
+            <div class="skill-card">
+                <h3>Frontend Development</h3>
+                <p>JavaScript, TypeScript, Vue.js, React</p>
+            </div>
+            <div class="skill-card">
+                <h3>Backend Development</h3>
+                <p>Node.js, Python, C++</p>
+            </div>
+            <div class="skill-card">
+                <h3>Software Architecture</h3>
+                <p>State Machines, Design Patterns</p>
+            </div>
+            <div class="skill-card">
+                <h3>Digital Arts</h3>
+                <p>Clip Studio Paint, Animation</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="contact__content">
+            <h2 class="section-title">Get in Touch</h2>
+            <p>Interested in collaboration? Let's discuss your project.</p>
+            <a href="mailto:okpalan@protonmail.com" class="button">Email Me</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Nnamdi Okpala. All rights reserved.</p>
+    </footer>
+
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
