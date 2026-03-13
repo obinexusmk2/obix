@@ -3,23 +3,14 @@
  * Accessible animation engine with motion preference detection
  */
 
-/**
- * Easing function type
- */
 export type Easing = "linear" | "easeIn" | "easeOut" | "easeInOut" | "cubic" | ((progress: number) => number);
 
-/**
- * Keyframe definition for animations
- */
 export interface Keyframe {
-  offset: number; // 0 to 1
+  offset: number;
   properties: Record<string, string | number>;
   easing?: Easing;
 }
 
-/**
- * Animation timeline
- */
 export interface Timeline {
   name: string;
   duration: number;
@@ -29,27 +20,18 @@ export interface Timeline {
   keyframes: Keyframe[];
 }
 
-/**
- * Strategy for respecting reduced motion preference
- */
 export interface ReducedMotionStrategy {
   skipAnimations: boolean;
   skipTransitions: boolean;
   instantDuration?: number;
 }
 
-/**
- * Motion engine configuration
- */
 export interface MotionConfig {
   respectPrefersReducedMotion: boolean;
   reducedMotionStrategy?: ReducedMotionStrategy;
   defaultEasing?: Easing;
 }
 
-/**
- * Motion engine interface
- */
 export interface MotionEngine {
   animate(element: HTMLElement, timeline: Timeline): Promise<void>;
   sequence(animations: Array<{ element: HTMLElement; timeline: Timeline }>): Promise<void>;
@@ -57,23 +39,65 @@ export interface MotionEngine {
   getTimeline(name: string): Timeline | undefined;
 }
 
-/**
- * Create a motion engine instance
- */
+const applyProperties = (element: HTMLElement, frame?: Keyframe): void => {
+  if (!frame) {
+    return;
+  }
+
+  Object.entries(frame.properties).forEach(([key, value]) => {
+    element.style.setProperty(key, String(value));
+  });
+};
+
 export function createMotionEngine(config: MotionConfig): MotionEngine {
+  const timelines = new Map<string, Timeline>();
+  const strategy: ReducedMotionStrategy = {
+    skipAnimations: true,
+    skipTransitions: true,
+    instantDuration: 0,
+    ...(config.reducedMotionStrategy ?? {})
+  };
+
+  const shouldReduceMotion = (): boolean => {
+    if (!config.respectPrefersReducedMotion || typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return false;
+    }
+
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  };
+
   return {
-    animate(element: HTMLElement, timeline: Timeline): Promise<void> {
-      throw new Error("Not yet implemented");
+    async animate(element: HTMLElement, timeline: Timeline): Promise<void> {
+      timelines.set(timeline.name, timeline);
+      const first = timeline.keyframes[0];
+      const last = timeline.keyframes[timeline.keyframes.length - 1];
+
+      applyProperties(element, first);
+
+      if (shouldReduceMotion() && strategy.skipAnimations) {
+        element.style.transitionDuration = `${strategy.instantDuration ?? 0}ms`;
+        applyProperties(element, last);
+        return;
+      }
+
+      await new Promise<void>((resolve) => {
+        const totalDuration = Math.max(0, timeline.duration + (timeline.delay ?? 0));
+        setTimeout(() => {
+          applyProperties(element, last);
+          resolve();
+        }, totalDuration);
+      });
     },
-    sequence(animations: Array<{ element: HTMLElement; timeline: Timeline }>): Promise<void> {
-      throw new Error("Not yet implemented");
+    async sequence(animations: Array<{ element: HTMLElement; timeline: Timeline }>): Promise<void> {
+      for (const animation of animations) {
+        await this.animate(animation.element, animation.timeline);
+      }
     },
     respectReducedMotion(): boolean {
-      throw new Error("Not yet implemented");
+      return shouldReduceMotion();
     },
     getTimeline(name: string): Timeline | undefined {
-      throw new Error("Not yet implemented");
+      return timelines.get(name);
     }
   };
 }
-
