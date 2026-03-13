@@ -50,9 +50,14 @@ export function createButton(config) {
          */
         toggle() {
             if (state.isToggle && !state.disabled && !state.loading) {
+                const nextPressed = !state.pressed;
+                state.pressed = nextPressed;
+                if (aria['aria-pressed'] !== undefined) {
+                    aria['aria-pressed'] = state.pressed;
+                }
                 return {
                     type: 'TOGGLED',
-                    pressed: !state.pressed,
+                    pressed: state.pressed,
                 };
             }
         },

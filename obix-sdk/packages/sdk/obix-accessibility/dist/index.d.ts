@@ -2,27 +2,18 @@
  * OBIX Accessibility - WCAG 2.2 enforcement, focus management, ARIA automation
  * Comprehensive accessibility engine for inclusive UI/UX
  */
-/**
- * WCAG conformance levels
- */
 export declare enum WCAGLevel {
     A = "A",
     AA = "AA",
     AAA = "AAA"
 }
-/**
- * Focus management interface
- */
 export interface FocusManager {
     setFocus(element: HTMLElement): void;
     getFocusedElement(): HTMLElement | null;
     saveFocusState(): void;
     restoreFocusState(): void;
-    manageFocusTrap(enabled: boolean): void;
+    manageFocusTrap(enabled: boolean, container?: HTMLElement): void;
 }
-/**
- * ARIA automation configuration
- */
 export interface AriaAutomation {
     autoLabel: boolean;
     autoRole: boolean;
@@ -30,9 +21,6 @@ export interface AriaAutomation {
     autoLive: boolean;
     liveRegionPriority: "polite" | "assertive";
 }
-/**
- * Accessibility configuration
- */
 export interface A11yConfig {
     wcagLevel: WCAGLevel;
     focusManagement: boolean;
@@ -40,9 +28,6 @@ export interface A11yConfig {
     contrastMinimumRatio?: number;
     testMode?: boolean;
 }
-/**
- * Accessibility audit result
- */
 export interface A11yAuditResult {
     violations: Array<{
         id: string;
@@ -53,18 +38,13 @@ export interface A11yAuditResult {
     passes: number;
     timestamp: number;
 }
-/**
- * Accessibility engine interface
- */
 export interface A11yEngine {
     audit(): A11yAuditResult;
-    enforceFocus(trap: boolean): void;
+    enforceFocus(trap: boolean, container?: HTMLElement): void;
     announceToScreenReader(message: string, priority: "polite" | "assertive"): void;
     validateContrast(element: HTMLElement): boolean;
+    registerContrastAuditHook(hook: (element: HTMLElement, ratio: number) => void): void;
     getFocusManager(): FocusManager;
 }
-/**
- * Create an accessibility engine instance
- */
 export declare function createAccessibilityEngine(config: A11yConfig): A11yEngine;
 //# sourceMappingURL=index.d.ts.map
