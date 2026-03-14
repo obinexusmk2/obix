@@ -2,29 +2,133 @@
  * Accessibility Tree Driver
  * ARIA/live region management and screen reader bridge
  */
+// Re-export all types
+export * from "./types.js";
+// Re-export all feature factories and their types
+export * from "./live-region-manager.js";
+export * from "./state-properties-manager.js";
+export * from "./focus-management.js";
+export * from "./screen-reader-bridge.js";
+export * from "./keyboard-navigation.js";
+export * from "./accessibility-tree-mirror.js";
+export * from "./semantic-html-enhancer.js";
+export * from "./aria-widget-compliance.js";
+export * from "./axe-core-integration.js";
+export * from "./framework-integration.js";
+import { createLiveRegionManager } from "./live-region-manager.js";
+import { createAriaStateManager } from "./state-properties-manager.js";
+import { createFocusManager } from "./focus-management.js";
+import { createScreenReaderBridge } from "./screen-reader-bridge.js";
+import { createKeyboardNavigationController } from "./keyboard-navigation.js";
+import { createAccessibilityTreeMirror } from "./accessibility-tree-mirror.js";
+import { createSemanticEnhancer } from "./semantic-html-enhancer.js";
+import { createWidgetComplianceEngine } from "./aria-widget-compliance.js";
+import { createAxeIntegration } from "./axe-core-integration.js";
+import { createFrameworkIntegration } from "./framework-integration.js";
 export function createAccessibilityTreeDriver(config) {
     let initialized = false;
-    let screenReaderMode = Boolean(config.screenReaderHints);
+    // Sub-features (created lazily during initialize)
+    let liveRegions;
+    let stateManager;
+    let focusManager;
+    let screenReaderBridge;
+    let keyboardNav;
+    let treeMirror;
+    let semanticEnhancer;
+    let widgetCompliance;
+    let axeIntegration;
+    let framework;
+    // Legacy compatibility: node map for updateAccessibilityNode
     const nodeMap = new Map();
-    const liveRegions = new Map();
-    let lastAnnouncement = "";
-    return {
+    const driver = {
         async initialize() {
+            if (initialized)
+                return;
             initialized = true;
+            // Create all sub-features
+            stateManager = createAriaStateManager();
+            focusManager = createFocusManager();
+            liveRegions = createLiveRegionManager({
+                container: config.rootElement,
+                defaultLevel: config.liveRegionDefaults?.level ?? "polite",
+            });
+            screenReaderBridge = createScreenReaderBridge({
+                liveRegionManager: liveRegions,
+                enableDetection: config.screenReaderHints,
+            });
+            keyboardNav = createKeyboardNavigationController();
+            treeMirror = createAccessibilityTreeMirror({
+                rootElement: config.rootElement,
+                observe: false,
+            });
+            semanticEnhancer = createSemanticEnhancer({
+                rootElement: config.rootElement,
+                stateManager,
+            });
+            widgetCompliance = createWidgetComplianceEngine({
+                stateManager,
+                focusManager,
+                keyboardNav,
+            });
+            axeIntegration = createAxeIntegration({
+                rootElement: config.rootElement,
+            });
+            framework = createFrameworkIntegration({
+                rootElement: config.rootElement,
+                driver,
+                liveRegionManager: liveRegions,
+                focusManager,
+                screenReaderBridge,
+                stateManager,
+            });
+            // Start tree observation
+            treeMirror.observe();
+            // Set screen reader mode if configured
+            if (config.screenReaderHints) {
+                screenReaderBridge.setOptimizationMode(true);
+            }
         },
         async registerLiveRegion(element, overrides) {
-            liveRegions.set(element, { ...config.liveRegionDefaults, ...overrides });
+            if (liveRegions) {
+                const id = element.id || `region-${Date.now()}`;
+                liveRegions.createRegion(id, { ...config.liveRegionDefaults, ...overrides });
+            }
         },
         announce(message, level = "polite") {
-            lastAnnouncement = message;
-            if (typeof config.rootElement.setAttribute === "function") {
+            if (screenReaderBridge) {
+                if (level === "assertive") {
+                    screenReaderBridge.announceAssertive(message);
+                }
+                else {
+                    screenReaderBridge.announcePolite(message);
+                }
+            }
+            else if (liveRegions) {
+                liveRegions.announceGlobal(message, level);
+            }
+            else if (typeof config.rootElement.setAttribute === "function") {
+                // Fallback for uninitialized state
                 config.rootElement.setAttribute("aria-live", level);
                 config.rootElement.setAttribute("aria-label", message);
             }
         },
         updateAccessibilityNode(element, node) {
             nodeMap.set(element, node);
-            if (typeof element.setAttribute === "function") {
+            if (stateManager) {
+                stateManager.setState(element, "role", node.role);
+                if (node.label) {
+                    stateManager.setState(element, "aria-label", node.label);
+                }
+                if (node.description) {
+                    stateManager.setState(element, "aria-describedby", node.description);
+                }
+                if (node.attributes) {
+                    for (const [key, value] of Object.entries(node.attributes)) {
+                        stateManager.setState(element, key, value);
+                    }
+                }
+            }
+            else if (typeof element.setAttribute === "function") {
                 element.setAttribute("role", node.role);
                 if (node.label) {
                     element.setAttribute("aria-label", node.label);
@@ -32,26 +136,61 @@ export function createAccessibilityTreeDriver(config) {
             }
         },
         getAccessibilityTree() {
+            if (treeMirror) {
+                return treeMirror.snapshot();
+            }
+            // Fallback for uninitialized state
             const children = Array.from(nodeMap.values());
             return {
                 role: "root",
-                label: lastAnnouncement || "accessibility-tree",
+                label: "accessibility-tree",
                 children,
             };
         },
         setScreenReaderMode(enabled) {
-            screenReaderMode = enabled;
+            if (screenReaderBridge) {
+                screenReaderBridge.setOptimizationMode(enabled);
+            }
             if (typeof config.rootElement.setAttribute === "function") {
-                config.rootElement.setAttribute("data-screen-reader-mode", String(screenReaderMode));
+                config.rootElement.setAttribute("data-screen-reader-mode", String(enabled));
             }
         },
         async destroy() {
-            initialized = false;
+            framework?.destroy();
+            axeIntegration?.destroy();
+            widgetCompliance?.destroy();
+            semanticEnhancer?.destroy();
+            treeMirror?.destroy();
+            keyboardNav?.destroy();
+            screenReaderBridge?.destroy();
+            focusManager?.destroy();
+            liveRegions?.destroy();
+            stateManager?.destroy();
+            framework = undefined;
+            axeIntegration = undefined;
+            widgetCompliance = undefined;
+            semanticEnhancer = undefined;
+            treeMirror = undefined;
+            keyboardNav = undefined;
+            screenReaderBridge = undefined;
+            focusManager = undefined;
+            liveRegions = undefined;
+            stateManager = undefined;
             nodeMap.clear();
-            liveRegions.clear();
-            lastAnnouncement = "";
-            void initialized;
+            initialized = false;
         },
+        // Sub-feature accessors
+        get liveRegions() { return liveRegions; },
+        get stateManager() { return stateManager; },
+        get focusManager() { return focusManager; },
+        get screenReaderBridge() { return screenReaderBridge; },
+        get keyboardNav() { return keyboardNav; },
+        get treeMirror() { return treeMirror; },
+        get semanticEnhancer() { return semanticEnhancer; },
+        get widgetCompliance() { return widgetCompliance; },
+        get axeIntegration() { return axeIntegration; },
+        get framework() { return framework; },
     };
+    return driver;
 }
 //# sourceMappingURL=index.js.map

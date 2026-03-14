@@ -18,6 +18,14 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "peerDependencies": {
+    "axe-core": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "axe-core": {
+      "optional": true
+    }
+  },
   "license": "MIT",
   "author": "OBINexus <okpalan@protonmail.com>",
   "publishConfig": {
