@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OBINexus Computing — Constitutional Software Infrastructure</title>
+<meta name="description" content="OBINexus Computing. OBIX is the Heart/Soul UI/UX SDK — Obi in Igbo means Heart and Soul. Constitutional computing framework built on human rights, accessibility, and Igbo ontological principles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Mono:wght@300;400&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  /* ── Design tokens ─────────────────────────────────────── */
+  :root {
+    --bg:        #0D0C0A;
+    --bg2:       #141210;
+    --bg3:       #1C1A16;
+    --surface:   #231F19;
+    --gold:      #C8922A;
+    --gold-dim:  #8A6118;
+    --gold-glow: rgba(200,146,42,0.12);
+    --ember:     #E05C2C;
+    --text:      #E8E2D4;
+    --text-dim:  #8C8474;
+    --text-faint:#4A4438;
+    --border:    rgba(200,146,42,0.18);
+    --border-dim:rgba(255,255,255,0.06);
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'Fraunces', serif;
+    --font-mono:    'DM Mono', monospace;
+    --radius:    6px;
+    --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── Reset ─────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── Typography ─────────────────────────────────────────── */
+  h1, h2, h3, .display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; }
+  .mono { font-family: var(--font-mono); font-size: 0.82em; }
+  .gold { color: var(--gold); }
+  .dim  { color: var(--text-dim); }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Layout ─────────────────────────────────────────────── */
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 2rem; }
+  .section    { padding: 7rem 0; }
+  .section--tight { padding: 4rem 0; }
+
+  /* ── Nav ────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 60px;
+    display: flex; align-items: center;
+    border-bottom: 1px solid var(--border-dim);
+    background: rgba(13,12,10,0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .nav-inner {
+    width: 100%; max-width: 1160px; margin: 0 auto;
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo .obi-mark {
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .nav-links a { color: var(--text-dim); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); text-decoration: none; }
+  .nav-links a.active { color: var(--text); }
+
+  /* ── Hero ───────────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 7rem 0 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--border-dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 80%);
+    opacity: 0.5;
+  }
+  .hero-glow {
+    position: absolute; pointer-events: none;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,146,42,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+  .hero-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 32px; height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    font-family: var(--font-body);
+    font-weight: 300;
+  }
+  .hero-igbo {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+    padding-left: 2px;
+  }
+  .hero-igbo strong {
+    font-style: normal;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .hero-desc {
+    max-width: 520px;
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+  }
+  .btn {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.8rem;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: #0D0C0A;
+  }
+  .btn-primary:hover { background: #D9A040; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border-dim);
+    flex-wrap: wrap;
+  }
+  .stat { }
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+
+  /* ── Provenance strip ───────────────────────────────────── */
+  .provenance-strip {
+    background: var(--bg2);
+    border-top: 1px solid var(--border-dim);
+    border-bottom: 1px solid var(--border-dim);
+    padding: 1.2rem 0;
+    overflow: hidden;
+  }
+  .provenance-inner {
+    display: flex; gap: 3rem; align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-faint);
+    white-space: nowrap;
+    flex-wrap: wrap;
+  }
+  .provenance-inner span { display: flex; align-items: center; gap: 8px; }
+  .provenance-inner span::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+  .provenance-inner a { color: var(--gold-dim); }
+  .provenance-inner a:hover { color: var(--gold); text-decoration: none; }
+
+  /* ── SDK Architecture section ───────────────────────────── */
+  .arch-label {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+  .section-desc {
+    max-width: 540px;
+    color: var(--text-dim);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 4rem;
+  }
+
+  .arch-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .arch-layer {
+    background: var(--bg2);
+    padding: 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    align-items: start;
+    border-bottom: 1px solid var(--border-dim);
+    transition: background 0.2s;
+  }
+  .arch-layer:last-child { border-bottom: none; }
+  .arch-layer:hover { background: var(--bg3); }
+  .arch-layer-label {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding-top: 2px;
+  }
+  .arch-layer-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .arch-layer-desc {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+  .arch-packages {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .pkg-pill {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border-dim);
+    color: var(--text-faint);
+    transition: all 0.15s;
+    cursor: default;
+  }
+  .pkg-pill:hover {
+    border-color: var(--gold-dim);
+    color: var(--gold);
+  }
+  .pkg-pill.highlight { border-color: var(--gold-dim); color: var(--gold-dim); }
+
+  /* ── Principles ─────────────────────────────────────────── */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .principle {
+    background: var(--bg2);
+    padding: 2rem;
+    border-bottom: 1px solid var(--border-dim);
+    border-right: 1px solid var(--border-dim);
+    transition: background 0.2s;
+  }
+  .principle:hover { background: var(--bg3); }
+  .principle-icon {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--gold);
+  }
+  .principle-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+  .principle-text {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ── Quickstart ─────────────────────────────────────────── */
+  .quickstart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .code-block {
+    background: var(--bg2);
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.7rem 1.2rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .code-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+  .code-lang {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(200,146,42,0.1);
+    color: var(--gold-dim);
+  }
+  .code-body {
+    padding: 1.5rem 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    overflow-x: auto;
+  }
+  .code-body .kw  { color: var(--gold); }
+  .code-body .str { color: #8DBB6E; }
+  .code-body .cm  { color: var(--text-faint); font-style: italic; }
+  .code-body .fn  { color: #7CB4E0; }
+  .code-body .nb  { color: var(--ember); }
+  .quickstart-info {
+    display: flex; flex-direction: column; justify-content: center; gap: 2rem;
+  }
+  .qs-step {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+  .qs-num {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .qs-step-title {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .qs-step-desc {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  /* ── Test status ─────────────────────────────────────────── */
+  .test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .test-card {
+    background: var(--bg2);
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-dim);
+    border-right: 1px solid var(--border-dim);
+  }
+  .test-pkg {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+  .test-count {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .test-label {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5A9B5A;
+  }
+  .test-label::before { content: '● '; font-size: 0.6rem; }
+
+  /* ── Igbo foundation banner ─────────────────────────────── */
+  .igbo-banner {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .igbo-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(200,146,42,0.06), transparent);
+    pointer-events: none;
+  }
+  .igbo-banner-word {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 7rem);
+    font-weight: 800;
+    color: var(--gold);
+    opacity: 0.15;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: -0.04em;
+    pointer-events: none;
+    user-select: none;
+  }
+  .igbo-banner-content { position: relative; z-index: 1; }
+  .igbo-banner-igbo {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .igbo-banner-english {
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .igbo-banner-note {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border-dim);
+    padding: 3rem 0;
+    background: var(--bg2);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .footer-brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+    max-width: 260px;
+  }
+  .footer-links {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+  }
+  .footer-col h4 {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col a { font-size: 0.88rem; color: var(--text-dim); }
+  .footer-col a:hover { color: var(--gold); text-decoration: none; }
+  .footer-bottom {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-dim);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+  }
+
+  /* ── OBIX runtime indicator ─────────────────────────────── */
+  .obix-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--gold-dim);
+    background: var(--gold-glow);
+  }
+  .obix-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .arch-layer   { grid-template-columns: 1fr; gap: 0.6rem; }
+    .quickstart-grid { grid-template-columns: 1fr; }
+    .hero-stats   { gap: 2rem; }
+    .nav-links    { display: none; }
+    .footer-inner { flex-direction: column; }
+    .footer-links { gap: 2rem; }
+  }
+
+  /* ── OBIX runtime boot animation ────────────────────────── */
+  .obix-boot {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+  .obix-boot.mounted { opacity: 1; transform: translateY(0); }
+
+  /* ── Component counter demo ─────────────────────────────── */
+  .demo-counter {
+    background: var(--bg2);
+    border: 1px solid var(--border-dim);
+    border-radius: 10px;
+    padding: 2rem;
+    display: flex; align-items: center; gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .demo-counter-label {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .demo-counter-value {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: transform 0.15s, color 0.15s;
+  }
+  .demo-counter-value.bump { transform: scale(1.08); color: #D9A040; }
+  .demo-counter-btns { display: flex; gap: 8px; }
+  .demo-counter-btns .btn { padding: 0.6rem 1.2rem; font-size: 1rem; letter-spacing: 0; }
+  .demo-status {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ─────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" style="text-decoration:none">
+      <span class="obi-mark">OBI</span>
+      OBINexus
+    </a>
+    <ul class="nav-links">
+      <li><a href="#sdk" class="active">SDK</a></li>
+      <li><a href="#principles">Principles</a></li>
+      <li><a href="#quickstart">Quickstart</a></li>
+      <li><a href="https://github.com/obinexusmk2/obix">GitHub</a></li>
+      <li><a href="https://www.npmjs.com/org/obinexusltd">npm</a></li>
+    </ul>
+    <div class="obix-badge">
+      <span class="dot"></span>
+      OBIX runtime
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────── -->
+<section class="hero container" id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="obix-boot" data-obix-component="HeroSection" data-obix-id="hero-1">
+    <div class="hero-eyebrow">Constitutional Computing Framework</div>
+
+    <h1 class="hero-title">
+      OBIX<br>
+      <em>Heart/Soul</em><br>
+      SDK
+    </h1>
+
+    <p class="hero-igbo">
+      <em>Obi</em> — Igbo (Ígbò) for <strong>Heart</strong> and <strong>Soul</strong>.<br>
+      The living centre from which everything else is structured.
+    </p>
+
+    <p class="hero-desc">
+      A data-oriented, accessibility-first UI/UX SDK built without framework dependencies.
+      OBIX is not built on React. OBIX <em>is</em> the framework — and this site is the proof.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#quickstart" class="btn btn-primary">Get Started</a>
+      <a href="https://github.com/obinexusmk2/obix" class="btn btn-outline">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        github.com/obinexusmk2/obix
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number" data-obix-state="packageCount">29</div>
+        <div class="stat-label">npm packages</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">119</div>
+        <div class="stat-label">tests passing</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">10</div>
+        <div class="stat-label">language bindings</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">0</div>
+        <div class="stat-label">framework deps</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Provenance strip ─────────────────────────────────────── -->
+<div class="provenance-strip">
+  <div class="container">
+    <div class="provenance-inner">
+      <span><a href="https://github.com/obinexusmk2/libpolycall-v1">libpolycall-v1</a></span>
+      <span>→</span>
+      <span><a href="https://github.com/obinexusmk2/obix">obix</a></span>
+      <span>→</span>
+      <span><a href="https://www.npmjs.com/org/obinexusltd">@obinexusltd/*</a></span>
+      <span style="margin-left:auto">Nnamdi Okpalan · OBINexus Computing · MIT</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Live OBIX demo ───────────────────────────────────────── -->
+<section class="section--tight container" id="demo">
+  <div class="arch-label">Live Demo</div>
+  <h2 class="section-title">OBIX running this page</h2>
+  <p class="section-desc" style="margin-bottom:1.5rem">
+    This counter is a registered OBIX component — no React, no framework.
+    State, lifecycle, dispatch, and halting, all running natively in the browser.
+  </p>
+  <div class="demo-counter obix-boot" data-obix-component="Counter" data-obix-id="counter-1">
+    <div>
+      <div class="demo-counter-label">Obi Counter · obix-core</div>
+      <div class="demo-counter-value" id="counter-display">0</div>
+      <div class="demo-status mono" id="counter-status">state: ACTIVE · revision: 0</div>
+    </div>
+    <div class="demo-counter-btns">
+      <button class="btn btn-outline" onclick="OBI.dispatch('counter-1','decrement')">−</button>
+      <button class="btn btn-primary" onclick="OBI.dispatch('counter-1','increment')">+</button>
+      <button class="btn btn-outline" onclick="OBI.dispatch('counter-1','reset')">Reset</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── SDK Architecture ─────────────────────────────────────── -->
+<section class="section container" id="sdk">
+  <div class="arch-label">Architecture</div>
+  <h2 class="section-title">Three-layer SDK</h2>
+  <p class="section-desc">
+    Every package has a single responsibility. Start with obix-core and add only what you need.
+    All 29 packages build from one monorepo and publish to <span class="mono">@obinexusltd</span>.
+  </p>
+
+  <div class="arch-layers">
+    <div class="arch-layer">
+      <div>
+        <div class="arch-layer-label">Layer 1</div>
+        <div class="arch-layer-name gold">SDK Core</div>
+      </div>
+      <div>
+        <div class="arch-layer-desc">
+          Application-facing layer. Component lifecycle, state management, routing, forms, telemetry.
+          Start here. Data-oriented, no virtual DOM.
+        </div>
+        <div class="arch-packages">
+          <span class="pkg-pill highlight">obix-core</span>
+          <span class="pkg-pill">obix-components</span>
+          <span class="pkg-pill">obix-state</span>
+          <span class="pkg-pill">obix-router</span>
+          <span class="pkg-pill">obix-forms</span>
+          <span class="pkg-pill">obix-accessibility</span>
+          <span class="pkg-pill">obix-telemetry</span>
+          <span class="pkg-pill">obix-adapter</span>
+          <span class="pkg-pill">obix-cli</span>
+        </div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div>
+        <div class="arch-layer-label">Layer 2</div>
+        <div class="arch-layer-name">Drivers</div>
+      </div>
+      <div>
+        <div class="arch-layer-desc">
+          Platform interface layer. Abstracts browser APIs into stable, testable drivers.
+          GPU acceleration, accessibility tree, network streams, DOM mutation, animation frames.
+        </div>
+        <div class="arch-packages">
+          <span class="pkg-pill">driver-accessibility-tree</span>
+          <span class="pkg-pill">driver-animation-frame</span>
+          <span class="pkg-pill">driver-compositor</span>
+          <span class="pkg-pill">driver-dom-mutation</span>
+          <span class="pkg-pill">driver-gpu-acceleration</span>
+          <span class="pkg-pill">driver-network-stream</span>
+          <span class="pkg-pill">driver-input-event</span>
+          <span class="pkg-pill">driver-font-layout</span>
+          <span class="pkg-pill">driver-media-query</span>
+          <span class="pkg-pill">driver-storage-persistence</span>
+        </div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div>
+        <div class="arch-layer-label">Layer 3</div>
+        <div class="arch-layer-name">Bindings</div>
+      </div>
+      <div>
+        <div class="arch-layer-desc">
+          Cross-language bridge layer, built on <a href="https://github.com/obinexusmk2/libpolycall-v1">libpolycall-v1</a>.
+          Connect OBIX to any target runtime across 10 languages.
+        </div>
+        <div class="arch-packages">
+          <span class="pkg-pill">binding-typescript</span>
+          <span class="pkg-pill">binding-go</span>
+          <span class="pkg-pill">binding-python</span>
+          <span class="pkg-pill">binding-rust</span>
+          <span class="pkg-pill">binding-cpp</span>
+          <span class="pkg-pill">binding-swift</span>
+          <span class="pkg-pill">binding-java-kotlin</span>
+          <span class="pkg-pill">binding-csharp</span>
+          <span class="pkg-pill">binding-zig</span>
+          <span class="pkg-pill">binding-lua</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Principles ───────────────────────────────────────────── -->
+<section class="section container" id="principles">
+  <div class="arch-label">Design Principles</div>
+  <h2 class="section-title">Built differently</h2>
+  <p class="section-desc">
+    OBIX is not a React wrapper. Every principle below is a constraint that shapes the architecture —
+    not a feature that can be toggled off.
+  </p>
+
+  <div class="principles-grid">
+    <div class="principle obix-boot">
+      <div class="principle-icon mono">DOA</div>
+      <div class="principle-name">Data-Oriented Architecture</div>
+      <p class="principle-text">
+        Components are plain data structures. State is explicit, inspectable, and serialisable.
+        No hidden closures. No reactive proxies. Every instance is deterministic.
+      </p>
+    </div>
+    <div class="principle obix-boot">
+      <div class="principle-icon mono">A11Y</div>
+      <div class="principle-name">Accessibility-First</div>
+      <p class="principle-text">
+        WCAG 2.2 is a hard constraint enforced at the policy layer.
+        Touch targets, ARIA labels, focus management, and reduced-motion support
+        are not optional. They cannot be forgotten.
+      </p>
+    </div>
+    <div class="principle obix-boot">
+      <div class="principle-icon mono">FUD</div>
+      <div class="principle-name">FUD Mitigation</div>
+      <p class="principle-text">
+        Failure modes are formalised: Autocomplete Attribute Neglect,
+        Form Validation Timing errors, CLS from unsized containers,
+        focus trap failures. Identified at definition time, not runtime.
+      </p>
+    </div>
+    <div class="principle obix-boot">
+      <div class="principle-icon mono">⏸</div>
+      <div class="principle-name">State Halting</div>
+      <p class="principle-text">
+        Instances that stabilise are automatically halted — no unnecessary re-renders.
+        A halted instance signals terminal condition. Explicit resume when needed.
+        The obix-core test suite has 31 cases covering this precisely.
+      </p>
+    </div>
+    <div class="principle obix-boot">
+      <div class="principle-icon mono">ND</div>
+      <div class="principle-name">Neurodivergent-First</div>
+      <p class="principle-text">
+        Sensory considerations are built in — reduced motion, high contrast,
+        predictable interaction patterns, clear focus indicators.
+        Not afterthoughts. Architecture.
+      </p>
+    </div>
+    <div class="principle obix-boot">
+      <div class="principle-icon mono">OBI</div>
+      <div class="principle-name">Constitutional Foundation</div>
+      <p class="principle-text">
+        Named from the Igbo word <em>Obi</em> — Heart and Soul.
+        Software as a human rights infrastructure.
+        Grounded in the OBINexus constitutional computing framework.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Quickstart ───────────────────────────────────────────── -->
+<section class="section container" id="quickstart">
+  <div class="arch-label">Quickstart</div>
+  <h2 class="section-title">Start in three steps</h2>
+  <p class="section-desc">No CLI, no generator, no framework configuration. Just components.</p>
+
+  <div class="quickstart-grid">
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-title">obix-core — register and dispatch</span>
+        <span class="code-lang">TypeScript</span>
+      </div>
+      <div class="code-body">
+<span class="kw">import</span> { ObixRuntime } <span class="kw">from</span> <span class="str">'@obinexusltd/obix-core'</span>;<br><br>
+<span class="kw">const</span> runtime = <span class="kw">new</span> <span class="fn">ObixRuntime</span>();<br><br>
+<span class="cm">// Register a component definition</span><br>
+runtime.<span class="fn">register</span>({<br>
+&nbsp;&nbsp;name: <span class="str">'Counter'</span>,<br>
+&nbsp;&nbsp;state: { count: <span class="nb">0</span> },<br>
+&nbsp;&nbsp;actions: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;increment: (s) =&gt; ({ count: s.count + <span class="nb">1</span> }),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;decrement: (s) =&gt; ({ count: s.count - <span class="nb">1</span> }),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reset:     ()  =&gt; ({ count: <span class="nb">0</span> }),<br>
+&nbsp;&nbsp;}<br>
+});<br><br>
+<span class="cm">// Create an instance</span><br>
+<span class="kw">const</span> id = runtime.<span class="fn">create</span>(<span class="str">'Counter'</span>);<br><br>
+<span class="cm">// Dispatch actions</span><br>
+runtime.<span class="fn">dispatch</span>(id, <span class="str">'increment'</span>);<br>
+runtime.<span class="fn">dispatch</span>(id, <span class="str">'increment'</span>);<br><br>
+<span class="cm">// Read state</span><br>
+<span class="kw">const</span> inst = runtime.<span class="fn">getInstance</span>(id);<br>
+console.<span class="fn">log</span>(inst.state.count); <span class="cm">// 2</span>
+      </div>
+    </div>
+
+    <div class="quickstart-info">
+      <div class="qs-step">
+        <div class="qs-num">1</div>
+        <div>
+          <div class="qs-step-title">Install obix-core</div>
+          <div class="qs-step-desc mono" style="margin-top:6px">npm install @obinexusltd/obix-core</div>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-num">2</div>
+        <div>
+          <div class="qs-step-title">Register your component</div>
+          <div class="qs-step-desc">
+            Define name, initial state, and actions.
+            Actions are pure functions — state in, delta out.
+            No side effects in the definition.
+          </div>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-num">3</div>
+        <div>
+          <div class="qs-step-title">Create instances and dispatch</div>
+          <div class="qs-step-desc">
+            Each call to <span class="mono">create()</span> returns a unique ID.
+            Dispatch actions against that ID.
+            State is updated, lifecycle hooks fire, revision increments.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:0.5rem">
+        <a href="https://github.com/obinexusmk2/obix" class="btn btn-outline" style="font-size:0.75rem">
+          View full documentation →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Test status ──────────────────────────────────────────── -->
+<section class="section--tight container" id="status">
+  <div class="arch-label">Build Status — 13 March 2026</div>
+  <h2 class="section-title" style="margin-bottom:2rem">All tests passing</h2>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-pkg mono">obix-core</div>
+      <div class="test-count">31</div>
+      <div class="test-label">passed</div>
+    </div>
+    <div class="test-card">
+      <div class="test-pkg mono">obix-components</div>
+      <div class="test-count">51</div>
+      <div class="test-label">passed</div>
+    </div>
+    <div class="test-card">
+      <div class="test-pkg mono">obix-state</div>
+      <div class="test-count">36</div>
+      <div class="test-label">passed</div>
+    </div>
+    <div class="test-card">
+      <div class="test-pkg mono">all drivers</div>
+      <div class="test-count">10</div>
+      <div class="test-label">passed</div>
+    </div>
+    <div class="test-card">
+      <div class="test-pkg mono">tsc build</div>
+      <div class="test-count">29</div>
+      <div class="test-label">packages compiled</div>
+    </div>
+    <div class="test-card">
+      <div class="test-pkg mono">total</div>
+      <div class="test-count">119+</div>
+      <div class="test-label">assertions</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Igbo foundation ──────────────────────────────────────── -->
+<section class="section--tight container">
+  <div class="igbo-banner">
+    <div class="igbo-banner-word">OBI</div>
+    <div class="igbo-banner-content">
+      <div class="igbo-banner-igbo">Obi — Ígbò, south-eastern Nigeria</div>
+      <div class="igbo-banner-english">Heart. Soul. The living centre.</div>
+      <p class="igbo-banner-note">
+        OBINexus is grounded in Igbo ontological principles.
+        The framework treats software infrastructure as a constitutional and human rights matter —
+        not as a product. <em>Obi</em> is the origin of the name and the shape of the architecture.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">OBINexus Computing</div>
+        <div class="footer-tagline">Constitutional software infrastructure. Igbo-rooted. Human rights-centred.</div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>SDK</h4>
+          <ul>
+            <li><a href="https://www.npmjs.com/package/@obinexusltd/obix-core">obix-core</a></li>
+            <li><a href="https://www.npmjs.com/package/@obinexusltd/obix-components">obix-components</a></li>
+            <li><a href="https://www.npmjs.com/package/@obinexusltd/obix-accessibility">obix-accessibility</a></li>
+            <li><a href="https://www.npmjs.com/org/obinexusltd">All 29 packages →</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Source</h4>
+          <ul>
+            <li><a href="https://github.com/obinexusmk2/obix">obix (GitHub)</a></li>
+            <li><a href="https://github.com/obinexusmk2/libpolycall-v1">libpolycall-v1</a></li>
+            <li><a href="https://github.com/obinexusmk2">@obinexusmk2</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:okpalan@protonmail.com">okpalan@protonmail.com</a></li>
+            <li><a href="https://www.npmjs.com/org/obinexusltd">npm @obinexusltd</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OBINexus Computing · Nnamdi Okpalan · MIT License</span>
+      <span class="obix-badge"><span class="dot"></span>Built with OBIX — no React</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── OBIX Runtime (vanilla JS mirror of obix-core) ─────────── -->
+<script>
+// ── OBIX Browser Runtime ─────────────────────────────────────
+// Mirrors the obix-core API (register, create, dispatch, getInstance)
+// This is NOT obix-core — this is OBIX running natively in the browser
+// proving the architecture works without any framework.
+
+const OBI = (() => {
+  const definitions = new Map();
+  const instances   = new Map();
+  let   _idCounter  = 0;
+
+  const LIFECYCLE = { CREATED: 'CREATED', UPDATED: 'UPDATED', HALTED: 'HALTED', DESTROYED: 'DESTROYED' };
+
+  function generateId(name) { return `${name}-${++_idCounter}-${Date.now().toString(36)}`; }
+
+  function deepEqual(a, b) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  function register(def) {
+    if (!def.name) throw new Error('[OBIX] Component definition requires a name');
+    definitions.set(def.name, { ...def, actions: def.actions || {} });
+  }
+
+  function create(name, initialState = {}) {
+    const def = definitions.get(name);
+    if (!def) throw new Error(`[OBIX] Component "${name}" is not registered`);
+    const id = generateId(name);
+    const instance = {
+      id,
+      name,
+      state: { ...def.state, ...initialState },
+      revision: 0,
+      halted: false,
+      createdAt: Date.now(),
+    };
+    instances.set(id, instance);
+    _fireLifecycle(instance, LIFECYCLE.CREATED);
+    return id;
+  }
+
+  function createWithId(name, explicitId, initialState = {}) {
+    const def = definitions.get(name);
+    if (!def) throw new Error(`[OBIX] Component "${name}" is not registered`);
+    const instance = {
+      id: explicitId,
+      name,
+      state: { ...def.state, ...initialState },
+      revision: 0,
+      halted: false,
+      createdAt: Date.now(),
+    };
+    instances.set(explicitId, instance);
+    _fireLifecycle(instance, LIFECYCLE.CREATED);
+    return explicitId;
+  }
+
+  function dispatch(id, actionName, payload) {
+    const instance = instances.get(id);
+    if (!instance) throw new Error(`[OBIX] Instance "${id}" not found`);
+    if (instance.halted) { console.warn(`[OBIX] Instance "${id}" is halted — skipping dispatch`); return; }
+    const def = definitions.get(instance.name);
+    const action = def.actions[actionName];
+    if (!action) throw new Error(`[OBIX] Action "${actionName}" not found on "${instance.name}"`);
+    const delta = action(instance.state, payload);
+    const nextState = { ...instance.state, ...delta };
+    if (deepEqual(instance.state, nextState)) {
+      instance.halted = true;
+      _fireLifecycle(instance, LIFECYCLE.HALTED);
+      return;
+    }
+    instance.state = nextState;
+    instance.revision++;
+    _fireLifecycle(instance, LIFECYCLE.UPDATED);
+  }
+
+  function halt(id) {
+    const instance = instances.get(id);
+    if (!instance) return;
+    instance.halted = true;
+    _fireLifecycle(instance, LIFECYCLE.HALTED);
+  }
+
+  function resume(id) {
+    const instance = instances.get(id);
+    if (!instance) return;
+    instance.halted = false;
+  }
+
+  function getInstance(id) { return instances.get(id) || null; }
+
+  function _fireLifecycle(instance, event) {
+    const def = definitions.get(instance.name);
+    if (def?.lifecycle?.[event]) {
+      try { def.lifecycle[event](instance); } catch(e) { console.error(`[OBIX] Lifecycle error:`, e); }
+    }
+    // Dispatch DOM event for data-binding
+    const el = document.querySelector(`[data-obix-id="${instance.id}"]`);
+    if (el) {
+      el.dispatchEvent(new CustomEvent('obix:update', { detail: { instance, event }, bubbles: true }));
+    }
+  }
+
+  return { register, create, createWithId, dispatch, halt, resume, getInstance, LIFECYCLE };
+})();
+
+// ── Register components ───────────────────────────────────────
+OBI.register({
+  name: 'Counter',
+  state: { count: 0 },
+  actions: {
+    increment: (s) => ({ count: s.count + 1 }),
+    decrement: (s) => ({ count: s.count - 1 }),
+    reset:     ()  => ({ count: 0 }),
+  },
+  lifecycle: {
+    [OBI.LIFECYCLE.UPDATED]: (instance) => {
+      const display = document.getElementById('counter-display');
+      const status  = document.getElementById('counter-status');
+      if (display) {
+        display.textContent = instance.state.count;
+        display.classList.add('bump');
+        setTimeout(() => display.classList.remove('bump'), 150);
+      }
+      if (status) {
+        status.textContent = `state: ${instance.halted ? 'HALTED' : 'ACTIVE'} · revision: ${instance.revision}`;
+      }
+    },
+    [OBI.LIFECYCLE.HALTED]: (instance) => {
+      const status = document.getElementById('counter-status');
+      if (status) status.textContent = `state: HALTED · revision: ${instance.revision}`;
+    }
+  }
+});
+
+OBI.register({
+  name: 'HeroSection',
+  state: { mounted: false },
+  actions: {
+    mount: () => ({ mounted: true }),
+  },
+  lifecycle: {
+    [OBI.LIFECYCLE.UPDATED]: (instance) => {
+      if (instance.state.mounted) {
+        const el = document.querySelector(`[data-obix-id="${instance.id}"]`);
+        if (el) el.classList.add('mounted');
+      }
+    }
+  }
+});
+
+// ── Boot sequence ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Mount counter
+  OBI.createWithId('Counter', 'counter-1');
+
+  // Mount hero with staggered animation
+  OBI.createWithId('HeroSection', 'hero-1');
+  requestAnimationFrame(() => {
+    setTimeout(() => OBI.dispatch('hero-1', 'mount'), 80);
+  });
+
+  // Boot-animate all obix-boot elements
+  const bootEls = document.querySelectorAll('.obix-boot:not([data-obix-id])');
+  bootEls.forEach((el, i) => {
+    setTimeout(() => el.classList.add('mounted'), 120 + i * 60);
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => observer.observe(s));
+
+  console.log('[OBIX] Runtime booted. No React. No framework. Heart/Soul.');
+  console.log('[OBIX] github.com/obinexusmk2/obix → npmjs.com/org/obinexusltd');
+});
+</script>
+
+</body>
+</html>
