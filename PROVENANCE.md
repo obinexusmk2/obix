@@ -6,6 +6,11 @@
 [OBINexus Computing](https://github.com/obinexusmk2) constitutional computing
 framework, developed and maintained by **Nnamdi Okpalan** (okpalan@protonmail.com).
 
+**OBI** (Igbo: *Obi*) means **Heart** and **Soul** in the Igbo language of
+south-eastern Nigeria. OBIX is built on this foundation: a UI/UX SDK that
+treats the human interface as the heart of any software system — not an
+afterthought, but the core.
+
 This repository (`github.com/obinexusmk2/obix`) contains the source for all
 packages published to npm under the `@obinexusltd` organisation scope.
 
@@ -28,18 +33,18 @@ packages published to npm under the `@obinexusltd` organisation scope.
 
 ### Drivers (platform interface layer)
 
-| Package                                  | Description                                               |
-|------------------------------------------|-----------------------------------------------------------|
-| `@obinexusltd/obix-driver-accessibility-tree` | ARIA/live region management and screen reader bridge |
-| `@obinexusltd/obix-driver-animation-frame`    | requestAnimationFrame scheduling and timeline orchestration |
-| `@obinexusltd/obix-driver-compositor`         | Layer management, z-index optimisation, occlusion culling |
-| `@obinexusltd/obix-driver-dom-mutation`       | Deterministic patch generation and snapshot updates |
-| `@obinexusltd/obix-driver-font-layout`        | Font metrics and layout measurement |
-| `@obinexusltd/obix-driver-gpu-acceleration`   | WebGL/WebGPU canvas rendering and shader management |
-| `@obinexusltd/obix-driver-input-event`        | Pointer, keyboard and gesture normalisation |
-| `@obinexusltd/obix-driver-media-query`        | Responsive query observation and breakpoint management |
-| `@obinexusltd/obix-driver-network-stream`     | WebSocket/SSE for telemetry and real-time state sync |
-| `@obinexusltd/obix-driver-storage-persistence` | Local/session storage with versioned snapshots |
+| Package                                         | Description                                                 |
+|-------------------------------------------------|-------------------------------------------------------------|
+| `@obinexusltd/obix-driver-accessibility-tree`   | ARIA/live region management and screen reader bridge        |
+| `@obinexusltd/obix-driver-animation-frame`      | requestAnimationFrame scheduling and timeline orchestration |
+| `@obinexusltd/obix-driver-compositor`           | Layer management, z-index optimisation, occlusion culling   |
+| `@obinexusltd/obix-driver-dom-mutation`         | Deterministic patch generation and snapshot updates         |
+| `@obinexusltd/obix-driver-font-layout`          | Font metrics and layout measurement                         |
+| `@obinexusltd/obix-driver-gpu-acceleration`     | WebGL/WebGPU canvas rendering and shader management         |
+| `@obinexusltd/obix-driver-input-event`          | Pointer, keyboard and gesture normalisation                 |
+| `@obinexusltd/obix-driver-media-query`          | Responsive breakpoint detection and safe-area handling      |
+| `@obinexusltd/obix-driver-network-stream`       | WebSocket/SSE for telemetry and real-time state sync        |
+| `@obinexusltd/obix-driver-storage-persistence`  | LocalStorage/IndexedDB wrapper for state caching            |
 
 ### Bindings (cross-language bridge layer)
 
@@ -54,21 +59,21 @@ packages published to npm under the `@obinexusltd` organisation scope.
 | `@obinexusltd/obix-binding-csharp`         | .NET/Unity integration                             |
 | `@obinexusltd/obix-binding-typescript`     | TypeScript-native API surface                      |
 | `@obinexusltd/obix-binding-rust`           | Memory-safe systems integration                    |
-| `@obinexusltd/obix-binding-lua`            | Scripting and embedded runtime                     |
+| `@obinexusltd/obix-binding-lua`            | Scripting and embedded runtime (Love2D, Roblox)    |
 
 ### SDK Core (application layer)
 
-| Package                            | Description                                             |
-|------------------------------------|---------------------------------------------------------|
-| `@obinexusltd/obix-core`           | Heart/Soul UI/UX runtime — component lifecycle, state halting, data-oriented architecture |
-| `@obinexusltd/obix-components`     | Base UI primitives — accessibility-first, FUD-mitigating components |
-| `@obinexusltd/obix-state`          | State machine minimisation (automata-based state management) |
-| `@obinexusltd/obix-router`         | SPA navigation with scroll restoration, deep linking    |
-| `@obinexusltd/obix-telemetry`      | State tracking, policy decorators, QA matrix integration |
-| `@obinexusltd/obix-forms`          | Validation, autocomplete, progressive enhancement       |
-| `@obinexusltd/obix-accessibility`  | WCAG 2.2 enforcement, focus management, ARIA automation |
-| `@obinexusltd/obix-adapter`        | Data-oriented paradigm translation layer                |
-| `@obinexusltd/obix-cli`            | Build tooling, schema validation, SemVerX management   |
+| Package                             | Description                                                               |
+|-------------------------------------|---------------------------------------------------------------------------|
+| `@obinexusltd/obix-core`            | Heart/Soul UI/UX runtime — component lifecycle, state halting, data-oriented architecture |
+| `@obinexusltd/obix-components`      | Base UI primitives — accessibility-first, FUD-mitigating components       |
+| `@obinexusltd/obix-state`           | State machine minimisation (automata-based state management)              |
+| `@obinexusltd/obix-router`          | SPA navigation with scroll restoration, deep linking                      |
+| `@obinexusltd/obix-telemetry`       | State tracking, policy decorators, QA matrix integration                  |
+| `@obinexusltd/obix-forms`           | Validation, autocomplete, progressive enhancement                         |
+| `@obinexusltd/obix-accessibility`   | WCAG 2.2 enforcement, focus management, ARIA automation                   |
+| `@obinexusltd/obix-adapter`         | Data-oriented paradigm translation layer                                  |
+| `@obinexusltd/obix-cli`             | Build tooling, schema validation, SemVerX management                      |
 
 ---
 
@@ -105,14 +110,9 @@ obix            (github.com/obinexusmk2/obix)
 ```
 
 `libpolycall-v1` provides the cross-language call protocol and driver
-abstraction that OBIX bindings implement. OBIX is not a standalone project —
-it is the browser/application-facing expression of the OBINexus infrastructure
-stack, which also includes:
-
-- `riftlang.exe → .so.a → rift.exe → gosilang` (core toolchain)
-- `nlink` / `polybuild` (build orchestration)
-- NSIGII Tripolar Trident (signal architecture)
-- MMUKO-OS (governance layer)
+abstraction that OBIX bindings implement. OBIX is the browser/application-facing
+expression of the OBINexus infrastructure stack, built on top of the
+`libpolycall-v1` protocol foundation.
 
 ---
 
